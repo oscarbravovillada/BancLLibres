@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes>
+
+  <!-- ESO -->
+  <classe nom="1ESO-A" codi_curs="1ESO" tutor_dni="" />
+  <classe nom="1ESO-B" codi_curs="1ESO" tutor_dni="" />
+  <classe nom="1ESO-C" codi_curs="1ESO" tutor_dni="" />
+
+  <classe nom="2ESO-A" codi_curs="2ESO" tutor_dni="" />
+  <classe nom="2ESO-B" codi_curs="2ESO" tutor_dni="" />
+  <classe nom="2ESO-C" codi_curs="2ESO" tutor_dni="" />
+
+  <classe nom="3ESO-A" codi_curs="3ESO" tutor_dni="" />
+  <classe nom="3ESO-B" codi_curs="3ESO" tutor_dni="" />
+  <classe nom="3ESO-C" codi_curs="3ESO" tutor_dni="" />
+
+  <classe nom="4ESO-A" codi_curs="4ESO" tutor_dni="" />
+  <classe nom="4ESO-B" codi_curs="4ESO" tutor_dni="" />
+  <classe nom="4ESO-C" codi_curs="4ESO" tutor_dni="" />
+
+  <!-- FP -->
+  <classe nom="CFGB-IO-A" codi_curs="CFGB-IO" tutor_dni="" />
+  <classe nom="CFGM-APSD-A" codi_curs="CFGM-APSD" tutor_dni="" />
+  <classe nom="CFGM-SMX-A" codi_curs="CFGM-SMX" tutor_dni="" />
+  <classe nom="CFGS-ASIX-A" codi_curs="CFGS-ASIX" tutor_dni="" />
+
+</classes>

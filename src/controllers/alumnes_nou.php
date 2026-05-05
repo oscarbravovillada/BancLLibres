@@ -1,0 +1,38 @@
+<?php
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../helpers/Database.php';
+require_once __DIR__ . '/../helpers/Auth.php';
+
+Auth::requireLogin();
+
+$titolPagina  = 'Nou alumne';
+$paginaActiva = 'alumnes';
+
+$classes = Database::fetchAll(
+    "SELECT id, nom FROM classes WHERE curs_escolar = ? ORDER BY nom",
+    [ANY_ESCOLAR]
+);
+
+$errors = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nom           = trim($_POST['nom'] ?? '');
+    $cognoms       = trim($_POST['cognoms'] ?? '');
+    $email_familia = trim($_POST['email_familia'] ?? '');
+    $classe_id     = (int)($_POST['classe_id'] ?? 0);
+
+    if ($nom === '' || $cognoms === '' || !$classe_id) {
+        $errors[] = 'Nom, cognoms i classe són obligatoris.';
+    }
+
+    if (!$errors) {
+        Database::execute(
+            "INSERT INTO alumnes (nom, cognoms, email_familia, classe_id, actiu)
+             VALUES (?,?,?,?,1)",
+            [$nom, $cognoms, $email_familia, $classe_id]
+        );
+        header('Location: ' . BASE_URL . '/alumnes/llista.php?classe_id=' . $classe_id);
+        exit;
+    }
+}
+
+include __DIR__ . '/../views/alumnes_nou.php';

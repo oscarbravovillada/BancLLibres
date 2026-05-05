@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alumnes>
+  <alumne 
+    nia="12345678"
+    dni="12345678A"
+    nom="Hugo"
+    cognom1="Garrido"
+    cognom2="Soler"
+    classe="1ASIR-A"
+    email_familia="familia.hugo@example.com"
+    telefon_familia="600111111"
+  />
+
+  <alumne 
+    nia="23456789"
+    dni="23456789B"
+    nom="Maria"
+    cognom1="Pérez"
+    cognom2="Vidal"
+    classe="1ASIR-A"
+    email_familia="familia.maria@example.com"
+    telefon_familia="600222222"
+  />
+
+  <alumne 
+    nia="34567890"
+    dni="34567890C"
+    nom="Josep"
+    cognom1="Martínez"
+    cognom2="Soler"
+    classe="1ASIR-A"
+    email_familia="familia.josep@example.com"
+    telefon_familia="600333333"
+  />
+</alumnes>

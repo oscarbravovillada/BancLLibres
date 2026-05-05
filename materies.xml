@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<materies>
+
+    <materia nom="Valencià" codi="VAL" />
+    <materia nom="Castellà" codi="CAS" />
+    <materia nom="Anglés" codi="ANG" />
+
+    <materia nom="Matemàtiques" codi="MAT" />
+    <materia nom="Biologia i Geologia" codi="BIO" />
+    <materia nom="Física i Química" codi="FQ" />
+    <materia nom="Tecnologia" codi="TEC" />
+
+    <materia nom="Geografia i Història" codi="GH" />
+    <materia nom="Música" codi="MUS" />
+    <materia nom="Educació Física" codi="EF" />
+    <materia nom="Plàstica" codi="PLA" />
+
+    <materia nom="Informàtica" codi="INF" />
+    <materia nom="Religió" codi="REL" />
+    <materia nom="Valors Ètics" codi="VALORS" />
+
+</materies>

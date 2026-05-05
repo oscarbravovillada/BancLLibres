@@ -1,0 +1,177 @@
+/* Tipografia general */
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #f1f5f9;
+  margin: 0;
+  padding: 0;
+  color: #1e293b;
+}
+
+/* Layout general */
+.main-wrap {
+  margin-left: 240px;
+  padding: 1.5rem;
+}
+
+.content {
+  margin-top: 1rem;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: #0f172a;
+  color: #fff;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+
+  /* 🔥 AFEGIT PER A TINDRE SCROLL VERTICAL */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-brand h1 {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.sidebar-brand small {
+  font-size: .75rem;
+  opacity: .7;
+}
+
+.nav-section {
+  margin-top: 1.5rem;
+  font-size: .75rem;
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+.nav-link {
+  display: block;
+  padding: .45rem .2rem;
+  margin: .15rem 0;
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: .9rem;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,.1);
+  color: #fff;
+}
+
+.nav-link.active {
+  background: #1e293b;
+  color: #fff;
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+  margin-top: auto;
+  font-size: .85rem;
+}
+
+.badge-admin {
+  background: #dc2626;
+  padding: .2rem .4rem;
+  border-radius: 4px;
+  font-size: .7rem;
+}
+
+.badge-prof {
+  background: #2563eb;
+  padding: .2rem .4rem;
+  border-radius: 4px;
+  font-size: .7rem;
+}
+
+/* TOPBAR */
+.topbar {
+  background: #fff;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+.topbar h2 {
+  font-size: 1.3rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* TARGETES */
+.card-header-bl {
+  background: #1e3a8a;
+  color: #fff;
+  padding: .6rem 1rem;
+  font-weight: 600;
+}
+
+.card {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+/* TAULES */
+.table-bl thead {
+  background: #1e3a8a;
+  color: #fff;
+}
+
+.table-bl tbody tr:hover {
+ background: #f1f5f9;
+}
+
+.codi-exemplar {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .85rem;
+}
+
+/* BADGES ESTAT */
+.badge-estat-actiu {
+  background: #2563eb;
+}
+
+.badge-estat-perdut {
+  background: #dc2626;
+}
+
+.badge-estat-retornat {
+  background: #16a34a;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  .main-wrap {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+    display: none;
+  }
+  .main-wrap {
+    margin-left: 0;
+  }
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5rem;
+  }
+}
