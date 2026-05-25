@@ -339,6 +339,14 @@ body {
 .stat-card .stat-num   { font-size: 2rem; font-weight: 800; line-height: 1.1; }
 .stat-card .stat-label { font-size: .88rem; color: var(--bl-stat-label); font-weight: 500; }
 
+/* Dark mode: force card bg, keep colored border and icon/num color */
+[data-bs-theme="dark"] .stat-card {
+  background: var(--bl-bg-card) !important;
+}
+[data-bs-theme="dark"] .stat-card .stat-label {
+  color: var(--bl-text-muted) !important;
+}
+
 /* ============================================================
    CARDS DE CLASSE I MATÈRIA (dark overrides)
    ============================================================ */

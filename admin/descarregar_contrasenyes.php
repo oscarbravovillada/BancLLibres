@@ -1,84 +1,65 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../src/helpers/Database.php';
 require_once __DIR__ . '/../src/helpers/Auth.php';
 
 Auth::requireLogin();
-
 if (Auth::rol() !== 'admin') {
-    die("Accés denegat");
+    header('Location: ' . BASE_URL . '/index.php');
+    exit;
 }
 
-$dir = __DIR__ . '/../private/exports/';
-$files = glob($dir . '*.csv');
+$titolPagina  = 'Descarregar contrasenyes';
+$paginaActiva = 'descarregar_contrasenyes';
+
+$dir   = __DIR__ . '/../private/exports/';
+$files = glob($dir . '*.csv') ?: [];
+sort($files);
+
+include __DIR__ . '/../src/views/layout_top.php';
 ?>
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-<meta charset="UTF-8">
-<title>Descarregar contrasenyes</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
-<style>
-body {
-    background: #f5f7fa;
-    font-family: "IBM Plex Sans", sans-serif;
-}
-.container-box {
-    max-width: 700px;
-    margin: 50px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-.file-item {
-    padding: 12px 18px;
-    border-radius: 8px;
-    background: #eef2f7;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.file-item:hover {
-    background: #e2e8f0;
-}
-</style>
-
-</head>
-<body>
-
-<div class="container-box">
-    <h2 class="mb-4">
-        <i class="bi bi-file-earmark-arrow-down"></i>
-        Descarregar contrasenyes
-    </h2>
+<div class="card" style="max-width:680px;margin:0 auto">
+  <div class="card-header-bl">
+    <i class="bi bi-file-earmark-arrow-down"></i> Descarregar contrasenyes
+  </div>
+  <div class="card-body">
 
     <?php if (empty($files)): ?>
-        <div class="alert alert-warning">
-            <i class="bi bi-exclamation-triangle"></i>
-            Encara no s'ha generat cap fitxer de contrasenyes.
-        </div>
+      <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle me-1"></i>
+        Encara no s'ha generat cap fitxer de contrasenyes.
+        Importa alumnes per crear-los automàticament.
+      </div>
     <?php else: ?>
-        <p class="text-muted">Selecciona un fitxer per descarregar-lo:</p>
+      <p class="text-muted mb-3" style="font-size:.9rem">
+        Selecciona un fitxer per descarregar-lo:
+      </p>
 
-        <?php foreach ($files as $file): ?>
-            <div class="file-item">
-                <strong><?= basename($file) ?></strong>
-                <a class="btn btn-primary btn-sm"
-                   href="<?= BASE_URL ?>/admin/download.php?file=<?= urlencode(basename($file)) ?>">
-                    <i class="bi bi-download"></i> Descarregar
-                </a>
-            </div>
-        <?php endforeach; ?>
+      <?php foreach ($files as $file): ?>
+      <div class="d-flex align-items-center justify-content-between
+                  px-3 py-2 mb-2 rounded-3"
+           style="background:var(--bl-codi-bg)">
+        <div>
+          <i class="bi bi-file-earmark-spreadsheet me-2"
+             style="color:#2e7d32"></i>
+          <strong style="font-family:'IBM Plex Mono',monospace;font-size:.9rem">
+            <?= htmlspecialchars(basename($file)) ?>
+          </strong>
+        </div>
+        <a class="btn btn-sm btn-primary"
+           href="<?= BASE_URL ?>/admin/download.php?file=<?= urlencode(basename($file)) ?>">
+          <i class="bi bi-download"></i> Descarregar
+        </a>
+      </div>
+      <?php endforeach; ?>
     <?php endif; ?>
 
     <a href="<?= BASE_URL ?>/index.php" class="btn btn-secondary mt-3">
-        <i class="bi bi-arrow-left"></i> Tornar
+      <i class="bi bi-arrow-left"></i> Tornar
     </a>
+
+  </div>
 </div>
 
-</body>
-</html>
+<?php include __DIR__ . '/../src/views/layout_bottom.php'; ?>
