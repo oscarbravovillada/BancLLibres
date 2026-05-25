@@ -83,11 +83,21 @@ $llibres = Database::fetchAll(
     $params
 );
 
-$materies = Database::fetchAll("SELECT id, nom FROM materies ORDER BY nom");
-$cursos   = Database::fetchAll("SELECT id, codi FROM cursos ORDER BY codi");
+$materies = Database::fetchAll(
+    "SELECT m.id, m.nom, m.codi, m.tipus,
+            COUNT(l.id) AS num_llibres,
+            COALESCE(SUM(
+                (SELECT COUNT(*) FROM exemplars e WHERE e.llibre_id = l.id)
+            ), 0) AS num_exemplars
+     FROM materies m
+     LEFT JOIN llibres l ON l.materia_id = m.id AND l.actiu = 1
+     GROUP BY m.id
+     ORDER BY m.tipus ASC, m.nom ASC"
+);
+$cursos = Database::fetchAll("SELECT id, codi FROM cursos ORDER BY codi");
 
 $materiaActual = $filtreMateria
-    ? Database::fetchOne("SELECT nom FROM materies WHERE id=?", [$filtreMateria])
+    ? Database::fetchOne("SELECT id, nom, codi, tipus FROM materies WHERE id=?", [$filtreMateria])
     : null;
 
 include __DIR__ . '/../views/llibres.php';
