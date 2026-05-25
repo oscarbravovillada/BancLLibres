@@ -1,6 +1,10 @@
-<?php // src/views/layout_top.php ?>
+<?php
+// Detect dark mode from session
+Auth::start();
+$_darkMode = !empty($_SESSION['dark_mode']);
+?>
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="ca" data-bs-theme="<?= $_darkMode ? 'dark' : 'light' ?>">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -116,6 +120,13 @@
     <?php else: ?>
       <span class="badge-prof">Professor/a</span>
     <?php endif; ?>
+
+    <!-- Dark mode toggle -->
+    <button class="dark-toggle-btn" id="darkToggleBtn" onclick="toggleDark()">
+      <i class="bi <?= $_darkMode ? 'bi-sun-fill' : 'bi-moon-stars-fill' ?>" id="darkToggleIcon"></i>
+      <span id="darkToggleTxt"><?= $_darkMode ? 'Mode clar' : 'Mode fosc' ?></span>
+    </button>
+
     <br>
     <a href="<?= BASE_URL ?>/logout.php">
       <i class="bi bi-box-arrow-left"></i> Tancar sessió
