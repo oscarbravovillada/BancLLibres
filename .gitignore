@@ -18,6 +18,11 @@ professors.xml
 # Contrasenyes CSV
 contrasenyes_*.csv
 
+# Composer (PHPMailer s'instal·la via composer install)
+vendor/phpmailer/
+vendor/autoload.php
+vendor/composer/
+
 # Editor i sistema
 .idea/
 .vscode/
