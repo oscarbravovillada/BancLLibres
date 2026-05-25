@@ -19,6 +19,11 @@
       · curs <?= ANY_ESCOLAR ?>
     </p>
   </div>
+  <?php if (Auth::rol() === 'admin'): ?>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNovaClasse">
+    <i class="bi bi-plus-circle me-1"></i> Nova classe
+  </button>
+  <?php endif; ?>
 </div>
 
 <!-- Acordió per etapes -->
@@ -120,6 +125,221 @@
     <p class="mt-3 text-muted">No hi ha classes registrades per al curs <?= ANY_ESCOLAR ?>.</p>
   </div>
 </div>
+<?php endif; ?>
+
+<?php if (Auth::rol() === 'admin'): ?>
+<!-- ===================== MODAL NOVA CLASSE ===================== -->
+<div class="modal fade" id="modalNovaClasse" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <form method="POST" class="modal-content" id="formNovaClasse">
+      <input type="hidden" name="accio" value="nova">
+
+      <div class="modal-header card-header-bl" style="border-radius:0">
+        <h5 class="modal-title"><i class="bi bi-plus-circle me-1"></i> Nova classe</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Pas 1: Tipus d'etapa -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Etapa educativa</label>
+          <div class="row g-2" id="etapaBtns">
+            <?php
+            $etapes = [
+              'eso'   => ['ESO',            'bi-mortarboard',     '#1565c0'],
+              'cfgb'  => ['Grau Bàsic',     'bi-journal-text',    '#e65100'],
+              'cfgm'  => ['Grau Mitjà',     'bi-journal-richtext','#2e7d32'],
+              'cfgs'  => ['Grau Superior',  'bi-award',           '#4a148c'],
+              'altre' => ['Altre',          'bi-grid',            '#455a64'],
+            ];
+            foreach ($etapes as $val => [$label, $icon, $color]): ?>
+            <div class="col-6 col-md-auto">
+              <input type="radio" name="etapa" id="etapa_<?= $val ?>" value="<?= $val ?>"
+                     class="btn-check" required>
+              <label class="btn btn-outline-secondary etapa-btn w-100" for="etapa_<?= $val ?>"
+                     data-color="<?= $color ?>">
+                <i class="bi <?= $icon ?> d-block mb-1" style="font-size:1.4rem"></i>
+                <span style="font-size:.82rem;font-weight:600"><?= $label ?></span>
+              </label>
+            </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+
+        <!-- Pas 2: Camps específics (ocults fins triar etapa) -->
+
+        <!-- ESO -->
+        <div id="seccio-eso" class="seccio-etapa d-none">
+          <div class="row g-3 align-items-end">
+            <div class="col-sm-6">
+              <label class="form-label fw-semibold">Curs</label>
+              <div class="d-flex gap-2 flex-wrap">
+                <?php foreach ([1=>'1r',2=>'2n',3=>'3r',4=>'4t'] as $n => $label): ?>
+                <div>
+                  <input type="radio" name="curs_num" id="curs<?= $n ?>" value="<?= $n ?>" class="btn-check">
+                  <label class="btn btn-outline-primary" for="curs<?= $n ?>"><?= $label ?></label>
+                </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <label class="form-label fw-semibold">Grup</label>
+              <input type="text" name="grup" id="grup_eso" class="form-control text-uppercase"
+                     maxlength="3" placeholder="A">
+            </div>
+          </div>
+        </div>
+
+        <!-- FP (CFGB / CFGM / CFGS) -->
+        <div id="seccio-fp" class="seccio-etapa d-none">
+          <div class="row g-3">
+            <div class="col-sm-4">
+              <label class="form-label fw-semibold">Codi del cicle</label>
+              <div class="input-group">
+                <span class="input-group-text fw-bold" id="fp-prefix" style="min-width:60px">CFGM</span>
+                <input type="text" name="codi_cicle" id="codi_cicle" class="form-control text-uppercase"
+                       placeholder="SMX" maxlength="10">
+              </div>
+              <div class="form-text">Sigles del cicle (ex: SMX, ASIX, IO)</div>
+            </div>
+            <div class="col-sm-2">
+              <label class="form-label fw-semibold">Grup</label>
+              <input type="text" name="grup" id="grup_fp" class="form-control text-uppercase"
+                     maxlength="3" placeholder="A">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label fw-semibold">Nom complet del cicle</label>
+              <input type="text" name="nom_complet" id="nom_complet" class="form-control"
+                     placeholder="Sistemes Microinformàtics i Xarxes">
+              <div class="form-text">Opcional si el cicle ja existeix</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Altre -->
+        <div id="seccio-altre" class="seccio-etapa d-none">
+          <div class="row g-3">
+            <div class="col-sm-5">
+              <label class="form-label fw-semibold">Nom de la classe</label>
+              <input type="text" name="nom_classe" id="nom_classe" class="form-control text-uppercase"
+                     placeholder="1BAT-A" maxlength="50">
+              <div class="form-text">Codi intern (ex: 1BAT-A, 2BAT-B)</div>
+            </div>
+            <div class="col-sm-7">
+              <label class="form-label fw-semibold">Nom oficial del curs</label>
+              <input type="text" name="nom_curs" id="nom_curs" class="form-control"
+                     placeholder="1r Batxillerat" maxlength="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Vista prèvia del nom generat -->
+        <div id="previa" class="d-none mt-3 p-3 rounded-3" style="background:#e8eaf6">
+          <div style="font-size:.82rem;color:#555">La classe es crearà com:</div>
+          <div id="previa-nom" class="fw-bold mt-1" style="font-size:1.3rem;font-family:'IBM Plex Mono',monospace;color:#1a237e"></div>
+        </div>
+
+        <hr class="my-3">
+
+        <!-- Tutor (sempre visible) -->
+        <div class="col-sm-8">
+          <label class="form-label fw-semibold">Tutor/a <span class="text-muted fw-normal">(opcional)</span></label>
+          <select name="tutor_id" class="form-select">
+            <option value="">— Sense tutor assignat —</option>
+            <?php foreach ($tutors as $t): ?>
+            <option value="<?= $t['id'] ?>"><?= htmlspecialchars($t['nom_complet']) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel·lar</button>
+        <button type="submit" class="btn btn-primary" id="btnCrear" disabled>
+          <i class="bi bi-plus-circle me-1"></i> Crear classe
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  const radios   = document.querySelectorAll('input[name="etapa"]');
+  const seccions = document.querySelectorAll('.seccio-etapa');
+  const previa   = document.getElementById('previa');
+  const previaNom= document.getElementById('previa-nom');
+  const btnCrear = document.getElementById('btnCrear');
+  const prefix   = document.getElementById('fp-prefix');
+
+  function actualitzar() {
+    const etapa = document.querySelector('input[name="etapa"]:checked')?.value;
+    seccions.forEach(s => s.classList.add('d-none'));
+
+    // Color del botó actiu
+    document.querySelectorAll('.etapa-btn').forEach(b => {
+      b.style.borderColor = '';
+      b.style.backgroundColor = '';
+      b.style.color = '';
+    });
+    const selLabel = document.querySelector(`label[for="etapa_${etapa}"]`);
+    if (selLabel) {
+      const c = selLabel.dataset.color;
+      selLabel.style.borderColor = c;
+      selLabel.style.backgroundColor = c + '18';
+      selLabel.style.color = c;
+    }
+
+    if (etapa === 'eso')   document.getElementById('seccio-eso').classList.remove('d-none');
+    if (['cfgb','cfgm','cfgs'].includes(etapa)) {
+      document.getElementById('seccio-fp').classList.remove('d-none');
+      prefix.textContent = etapa.toUpperCase();
+    }
+    if (etapa === 'altre') document.getElementById('seccio-altre').classList.remove('d-none');
+
+    recalcularNom();
+  }
+
+  function recalcularNom() {
+    const etapa = document.querySelector('input[name="etapa"]:checked')?.value;
+    let nom = '';
+
+    if (etapa === 'eso') {
+      const num   = document.querySelector('input[name="curs_num"]:checked')?.value;
+      const codis = {1:'1ESO',2:'2ESO',3:'3ESO',4:'4ESO'};
+      const grup  = document.getElementById('grup_eso').value.toUpperCase().trim();
+      if (num && grup) nom = (codis[num] || '') + '-' + grup;
+
+    } else if (['cfgb','cfgm','cfgs'].includes(etapa)) {
+      const cicle = document.getElementById('codi_cicle').value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+      const grup  = document.getElementById('grup_fp').value.toUpperCase().trim();
+      if (cicle && grup) nom = etapa.toUpperCase() + '-' + cicle + '-' + grup;
+
+    } else if (etapa === 'altre') {
+      nom = document.getElementById('nom_classe').value.toUpperCase().trim();
+    }
+
+    if (nom) {
+      previaNom.textContent = nom;
+      previa.classList.remove('d-none');
+      btnCrear.disabled = false;
+    } else {
+      previa.classList.add('d-none');
+      btnCrear.disabled = true;
+    }
+  }
+
+  radios.forEach(r => r.addEventListener('change', actualitzar));
+
+  // Escolta canvis en tots els camps de text i radios de curs_num
+  document.querySelectorAll('#formNovaClasse input[type="text"], input[name="curs_num"]')
+    .forEach(el => el.addEventListener('input', recalcularNom));
+  document.querySelectorAll('input[name="curs_num"]')
+    .forEach(el => el.addEventListener('change', recalcularNom));
+})();
+</script>
 <?php endif; ?>
 
 <style>
