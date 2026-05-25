@@ -62,9 +62,12 @@ if ($classeSeleccionada) {
     if ($classeActual) {
         $alumnes = Database::fetchAll(
             "SELECT a.*,
-                (SELECT COUNT(*) 
-                 FROM prestecs p 
-                 WHERE p.alumne_id = a.id AND p.estat_prestec = 'actiu') AS llibres_actius
+                (SELECT COUNT(*)
+                 FROM prestecs p
+                 WHERE p.alumne_id = a.id AND p.estat_prestec = 'actiu') AS llibres_actius,
+                (SELECT COUNT(*)
+                 FROM incidencies i
+                 WHERE i.alumne_id = a.id AND i.ha_de_pagar = 1 AND i.pagat = 0) AS pagaments_pendents
              FROM alumnes a
              WHERE a.classe_id = ? AND a.actiu = 1
              ORDER BY a.cognoms, a.nom",

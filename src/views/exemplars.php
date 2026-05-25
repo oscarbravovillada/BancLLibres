@@ -57,7 +57,7 @@
 
 <!-- TAULA -->
 <div class="table-responsive">
-  <table class="table table-exemplars table-hover">
+  <table class="table table-bl table-hover">
     <thead>
       <tr>
         <th>Codi</th><th>Títol</th><th>Matèria</th><th>Curs</th>
@@ -73,16 +73,18 @@
         <td><?= htmlspecialchars($e['curs_codi']) ?></td>
 
         <td>
-          <span class="badge badge-estat-<?= $e['estat'] ?>">
-            <?= ucfirst($e['estat']) ?>
+          <?php $estat = strtolower(trim($e['estat'])); ?>
+          <span class="badge badge-estat-<?= $estat ?>">
+              <?= ucfirst($estat) ?>
           </span>
+
         </td>
 
         <td>
           <?php if ($e['disponible']): ?>
-            <span class="badge bg-success"><i class="bi bi-check"></i> Sí</span>
+            <span class="badge badge-estat-bo"><i class="bi bi-check-lg"></i> Sí</span>
           <?php else: ?>
-            <span class="badge bg-danger"><i class="bi bi-x"></i> No</span>
+            <span class="badge badge-estat-perdut"><i class="bi bi-x-lg"></i> No</span>
           <?php endif; ?>
         </td>
 
@@ -108,7 +110,7 @@
 <div class="modal fade" id="modalExemplar" tabindex="-1">
   <div class="modal-dialog">
     <form method="post" class="modal-content">
-      <div class="modal-header bg-success text-white">
+      <div class="modal-header card-header-bl" style="border-radius:0">
         <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Nou exemplar</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
@@ -160,9 +162,9 @@
 <div class="modal fade" id="modalEditExemplar" tabindex="-1">
   <div class="modal-dialog">
     <form method="post" class="modal-content">
-      <div class="modal-header bg-warning">
+      <div class="modal-header card-header-bl" style="border-radius:0">
         <h5 class="modal-title"><i class="bi bi-pencil"></i> Editar exemplar</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
 
       <div class="modal-body">

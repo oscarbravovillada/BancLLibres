@@ -52,10 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['xml']) && $_FILES['x
             } else {
                 // Generem username senzill: nom.cognom1 en minúscules
                 $baseUsername = strtolower(
-                    preg_replace('/[^a-z0-9]/', '',
+                    preg_replace('/[^a-zA-Z0-9]/', '',
                         iconv('UTF-8', 'ASCII//TRANSLIT', $nom)
                     ) . '.' .
-                    preg_replace('/[^a-z0-9]/', '',
+                    preg_replace('/[^a-zA-Z0-9]/', '',
                         iconv('UTF-8', 'ASCII//TRANSLIT', $cognom1)
                     )
                 );

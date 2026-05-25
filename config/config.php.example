@@ -1,0 +1,48 @@
+<?php
+// ============================================================
+// config/config.php  — Configuració general
+// Copia aquest fitxer a config/config.php i adapta els valors
+// ============================================================
+
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'banc_llibres');
+define('DB_USER', 'banc_user');
+define('DB_PASS', 'la_teua_contrasenya');
+define('DB_CHARSET', 'utf8mb4');
+
+define('APP_NAME',    'Banc de Llibres');
+define('APP_VERSION', '4.0');
+define('ANY_ESCOLAR', '2025/2026');
+
+define('BASE_URL', 'http://localhost/BancLLibres');
+
+// Correu (PHPMailer) — opcional, deixa en blanc si no el necessites
+define('MAIL_HOST',     'smtp.gmail.com');
+define('MAIL_PORT',     587);
+define('MAIL_USER',     'correu@institut.es');
+define('MAIL_PASS',     'contrasenya_app');
+define('MAIL_FROM',     'correu@institut.es');
+define('MAIL_FROM_NAME','Banc de Llibres Institut');
+
+// PDFs
+define('PDF_DIR', __DIR__ . '/../private/pdf/');
+define('PDF_URL', __DIR__ . '/../private/pdf/');
+
+// Sessions
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_strict_mode', 1);
+session_name('banc_sess');
+
+// Zona horària
+date_default_timezone_set('Europe/Madrid');
+
+// Mode debug (poseu false en producció)
+define('DEBUG', true);
+
+if (DEBUG) {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    error_reporting(0);
+}

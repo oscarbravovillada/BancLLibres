@@ -18,10 +18,15 @@
   <classe nom="4ESO-B" codi_curs="4ESO" tutor_dni="" />
   <classe nom="4ESO-C" codi_curs="4ESO" tutor_dni="" />
 
-  <!-- FP -->
+  <!-- FP Bàsica -->
   <classe nom="CFGB-IO-A" codi_curs="CFGB-IO" tutor_dni="" />
+
+  <!-- FP Grau Mig -->
   <classe nom="CFGM-APSD-A" codi_curs="CFGM-APSD" tutor_dni="" />
-  <classe nom="CFGM-SMX-A" codi_curs="CFGM-SMX" tutor_dni="" />
+  <classe nom="CFGM-SMX-A"  codi_curs="CFGM-SMX"  tutor_dni="" />
+
+  <!-- FP Grau Superior -->
+  <classe nom="1ASIX-A"     codi_curs="1ASIX"     tutor_dni="" />
   <classe nom="CFGS-ASIX-A" codi_curs="CFGS-ASIX" tutor_dni="" />
 
 </classes>

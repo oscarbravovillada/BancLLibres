@@ -17,7 +17,7 @@ $prestecs = Database::fetchAll(
      JOIN exemplars e ON p.exemplar_id = e.id
      JOIN llibres l   ON e.llibre_id = l.id
      ORDER BY p.data_prestec DESC
-     LIMIT 100"
+     LIMIT 200"
 );
 
 include __DIR__ . '/../views/prestecs_llista.php';

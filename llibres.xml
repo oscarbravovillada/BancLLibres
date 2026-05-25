@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<llibres>
+
+  <!-- 1r ESO -->
+  <llibre isbn="9788467594331" titol="Matemàtiques 1r ESO"         editorial="Anaya"        materia_codi="MAT" curs_codi="1ESO" />
+  <llibre isbn="9788467594348" titol="Valencià 1r ESO"             editorial="Bromera"      materia_codi="VAL" curs_codi="1ESO" />
+  <llibre isbn="9788467594355" titol="Castellà 1r ESO"             editorial="Santillana"   materia_codi="CAS" curs_codi="1ESO" />
+  <llibre isbn="9788467594362" titol="Anglés 1r ESO"               editorial="Oxford"       materia_codi="ANG" curs_codi="1ESO" />
+  <llibre isbn="9788467594379" titol="Biologia i Geologia 1r ESO"  editorial="SM"           materia_codi="BIO" curs_codi="1ESO" />
+  <llibre isbn="9788467594386" titol="Geografia i Història 1r ESO" editorial="Vicens Vives" materia_codi="GH"  curs_codi="1ESO" />
+  <llibre isbn="9788467594393" titol="Tecnologia 1r ESO"           editorial="McGraw-Hill"  materia_codi="TEC" curs_codi="1ESO" />
+
+  <!-- 2n ESO -->
+  <llibre isbn="9788467595001" titol="Matemàtiques 2n ESO"         editorial="Anaya"        materia_codi="MAT" curs_codi="2ESO" />
+  <llibre isbn="9788467595018" titol="Valencià 2n ESO"             editorial="Bromera"      materia_codi="VAL" curs_codi="2ESO" />
+  <llibre isbn="9788467595025" titol="Castellà 2n ESO"             editorial="Santillana"   materia_codi="CAS" curs_codi="2ESO" />
+  <llibre isbn="9788467595032" titol="Anglés 2n ESO"               editorial="Oxford"       materia_codi="ANG" curs_codi="2ESO" />
+  <llibre isbn="9788467595049" titol="Física i Química 2n ESO"     editorial="SM"           materia_codi="FQ"  curs_codi="2ESO" />
+  <llibre isbn="9788467595056" titol="Geografia i Història 2n ESO" editorial="Vicens Vives" materia_codi="GH"  curs_codi="2ESO" />
+
+  <!-- 3r ESO -->
+  <llibre isbn="9788467596001" titol="Matemàtiques 3r ESO"         editorial="Anaya"        materia_codi="MAT" curs_codi="3ESO" />
+  <llibre isbn="9788467596018" titol="Valencià 3r ESO"             editorial="Bromera"      materia_codi="VAL" curs_codi="3ESO" />
+  <llibre isbn="9788467596025" titol="Castellà 3r ESO"             editorial="Santillana"   materia_codi="CAS" curs_codi="3ESO" />
+  <llibre isbn="9788467596032" titol="Anglés 3r ESO"               editorial="Oxford"       materia_codi="ANG" curs_codi="3ESO" />
+  <llibre isbn="9788467596049" titol="Biologia i Geologia 3r ESO"  editorial="SM"           materia_codi="BIO" curs_codi="3ESO" />
+  <llibre isbn="9788467596056" titol="Física i Química 3r ESO"     editorial="SM"           materia_codi="FQ"  curs_codi="3ESO" />
+
+  <!-- 4t ESO -->
+  <llibre isbn="9788467597001" titol="Matemàtiques 4t ESO"         editorial="Anaya"        materia_codi="MAT" curs_codi="4ESO" />
+  <llibre isbn="9788467597018" titol="Valencià 4t ESO"             editorial="Bromera"      materia_codi="VAL" curs_codi="4ESO" />
+  <llibre isbn="9788467597025" titol="Castellà 4t ESO"             editorial="Santillana"   materia_codi="CAS" curs_codi="4ESO" />
+  <llibre isbn="9788467597032" titol="Anglés 4t ESO"               editorial="Oxford"       materia_codi="ANG" curs_codi="4ESO" />
+  <llibre isbn="9788467597049" titol="Història 4t ESO"             editorial="Vicens Vives" materia_codi="HIS" curs_codi="4ESO" />
+
+  <!-- 1r ASIX -->
+  <llibre isbn="9788497581001" titol="Sistemes Informàtics 1r ASIX"           editorial="McGraw-Hill" materia_codi="SI"  curs_codi="1ASIX" />
+  <llibre isbn="9788497581018" titol="Xarxes Locals 1r ASIX"                  editorial="Paraninfo"   materia_codi="XL"  curs_codi="1ASIX" />
+  <llibre isbn="9788497581025" titol="Fonaments de Hardware 1r ASIX"          editorial="Paraninfo"   materia_codi="FH"  curs_codi="1ASIX" />
+  <llibre isbn="9788497581032" titol="Implantació de Sistemes Operatius ASIX" editorial="McGraw-Hill" materia_codi="ISO" curs_codi="1ASIX" />
+  <llibre isbn="9788497581049" titol="Llenguatge de Marques 1r ASIX"          editorial="Paraninfo"   materia_codi="LM"  curs_codi="1ASIX" />
+  <llibre isbn="9788497581056" titol="Gestió de Bases de Dades 1r ASIX"       editorial="McGraw-Hill" materia_codi="GBD" curs_codi="1ASIX" />
+  <llibre isbn="9788497581063" titol="FOL ASIX"                               editorial="Paraninfo"   materia_codi="FOL" curs_codi="1ASIX" />
+  <llibre isbn="9788497581070" titol="Anglés Tècnic ASIX"                     editorial="Oxford"      materia_codi="ANG" curs_codi="1ASIX" />
+
+</llibres>

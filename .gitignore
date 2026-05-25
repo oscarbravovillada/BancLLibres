@@ -1,0 +1,26 @@
+# Configuració local (conté contrasenyes de BD i correu)
+config/config.php
+
+# Fitxers generats
+private/pdf/
+private/exports/
+
+# PDFs solts a l'arrel (generats durant proves)
+*.pdf
+
+# XMLs amb dades personals (alumnes, professors)
+alumnes.xml
+testalumnes.xml
+professors.xml
+
+# Contrasenyes CSV
+contrasenyes_*.csv
+
+# Editor i sistema
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
