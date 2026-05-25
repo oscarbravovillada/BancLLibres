@@ -63,14 +63,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             $ex_ret = Database::fetchOne(
-                "SELECT e.codi, l.titol, m.nom AS materia
+                "SELECT e.codi, e.estat, l.titol, m.nom AS materia
                  FROM exemplars e
                  JOIN llibres l ON e.llibre_id = l.id
                  JOIN materies m ON l.materia_id = m.id
                  WHERE e.id = ?",
                 [$id]
             );
-            $retornats[] = $ex_ret;
+            $retornats[] = [
+                'codi'              => $ex_ret['codi'],
+                'titol'             => $ex_ret['titol'],
+                'materia'           => $ex_ret['materia'],
+                'estat_inicial'     => $ex_ret['estat'],
+                'estat_final'       => $ex_ret['estat'],
+                'desperfectes_final'=> '',
+            ];
 
             /* Historial */
             Database::insert(
@@ -111,9 +118,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             $no_retornats[] = [
-                'codi'  => Database::fetchOne("SELECT codi FROM exemplars WHERE id = ?", [$id])['codi'],
-                'titol' => Database::fetchOne("SELECT l.titol FROM exemplars e JOIN llibres l ON e.llibre_id=l.id WHERE e.id = ?", [$id])['titol'],
-                'motiu' => 'Perdut'
+                'codi'  => $ex_perd['codi'],
+                'titol' => $ex_perd['titol'],
+                'motiu' => 'Perdut',
             ];
         }
     }
