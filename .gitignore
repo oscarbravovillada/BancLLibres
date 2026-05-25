@@ -7,6 +7,8 @@ private/exports/
 
 # PDFs solts a l'arrel (generats durant proves)
 *.pdf
+# Excepció: documentació del projecte
+!manual_banc_llibres.pdf
 
 # XMLs amb dades personals (alumnes, professors)
 alumnes.xml
