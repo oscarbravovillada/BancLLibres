@@ -7,9 +7,104 @@
 <div class="alert alert-danger"><?= htmlspecialchars($errorMsg) ?></div>
 <?php endif; ?>
 
+<?php if (!$filtreMateria): ?>
+<!-- =====================================================================
+     ESTAT INICIAL: tria de matèria (sense filtre actiu)
+     ===================================================================== -->
+
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h3 class="fw-bold mb-0" style="color:#1a237e">
+      <i class="bi bi-journal-text me-2"></i>Llibres
+    </h3>
+    <p class="text-muted mb-0 mt-1" style="font-size:.9rem">
+      Selecciona una matèria per veure els llibres disponibles
+    </p>
+  </div>
+  <?php if (Auth::rol() === 'admin'): ?>
+  <a href="<?= BASE_URL ?>/llibres/nou.php" class="btn btn-primary">
+    <i class="bi bi-plus-circle"></i> Nou llibre
+  </a>
+  <?php endif; ?>
+</div>
+
+<?php
+$comuni   = array_filter($materies, fn($m) => $m['tipus'] === 'comuna');
+$optativa = array_filter($materies, fn($m) => $m['tipus'] === 'optativa');
+?>
+
+<!-- Matèries comunes -->
+<?php if (!empty($comuni)): ?>
+<div class="mb-2 px-1" style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888">
+  <i class="bi bi-circle-fill me-1" style="color:#1565c0;font-size:.5rem"></i> Matèries comunes
+</div>
+<div class="row g-3 mb-4">
+  <?php foreach ($comuni as $m): ?>
+  <div class="col-sm-6 col-md-4 col-xl-3">
+    <a href="?materia_id=<?= $m['id'] ?>" class="text-decoration-none">
+      <div class="materia-card">
+        <div class="materia-card-top" style="background:#1a237e"></div>
+        <div class="materia-card-body">
+          <div class="materia-card-codi"><?= htmlspecialchars($m['codi']) ?></div>
+          <div class="materia-card-nom"><?= htmlspecialchars($m['nom']) ?></div>
+          <div class="materia-card-footer">
+            <?php if ($m['num_llibres'] > 0): ?>
+              <span class="materia-card-count">
+                <i class="bi bi-book me-1"></i><?= $m['num_llibres'] ?> llibre<?= $m['num_llibres'] != 1 ? 's' : '' ?>
+              </span>
+            <?php else: ?>
+              <span class="materia-card-empty">Sense llibres</span>
+            <?php endif; ?>
+            <i class="bi bi-arrow-right-circle materia-card-arrow"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<!-- Matèries optatives -->
+<?php if (!empty($optativa)): ?>
+<div class="mb-2 px-1" style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#888">
+  <i class="bi bi-circle-fill me-1" style="color:#0277bd;font-size:.5rem"></i> Matèries optatives
+</div>
+<div class="row g-3">
+  <?php foreach ($optativa as $m): ?>
+  <div class="col-sm-6 col-md-4 col-xl-3">
+    <a href="?materia_id=<?= $m['id'] ?>" class="text-decoration-none">
+      <div class="materia-card">
+        <div class="materia-card-top" style="background:#0277bd"></div>
+        <div class="materia-card-body">
+          <div class="materia-card-codi"><?= htmlspecialchars($m['codi']) ?></div>
+          <div class="materia-card-nom"><?= htmlspecialchars($m['nom']) ?></div>
+          <div class="materia-card-footer">
+            <?php if ($m['num_llibres'] > 0): ?>
+              <span class="materia-card-count">
+                <i class="bi bi-book me-1"></i><?= $m['num_llibres'] ?> llibre<?= $m['num_llibres'] != 1 ? 's' : '' ?>
+              </span>
+            <?php else: ?>
+              <span class="materia-card-empty">Sense llibres</span>
+            <?php endif; ?>
+            <i class="bi bi-arrow-right-circle materia-card-arrow"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+
+<?php else: ?>
+<!-- =====================================================================
+     ESTAT FILTRAT: sidebar matèries + grid de llibres
+     ===================================================================== -->
 <div class="row g-4">
 
-  <!-- ===================== PANEL ESQUERRE: MATÈRIES ===================== -->
+  <!-- Panel esquerre: matèries -->
   <div class="col-md-3">
     <div class="card">
       <div class="card-header-bl"><i class="bi bi-tags-fill"></i> Matèries</div>
@@ -23,16 +118,14 @@
 
         <!-- Totes -->
         <a href="<?= BASE_URL ?>/llibres/llibres.php"
-           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2
-                  <?= !$filtreMateria ? 'active-mat' : '' ?>">
-          <span class="fw-semibold" style="font-size:.95rem">
-            <i class="bi bi-grid me-1"></i> Totes les matèries
+           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+          <span class="fw-semibold" style="font-size:.9rem">
+            <i class="bi bi-arrow-left me-1"></i> Totes les matèries
           </span>
-          <span class="badge" style="background:#455a64;color:#fff"><?= count($materies) ?></span>
         </a>
 
         <!-- Comunes -->
-        <div class="px-3 pt-2 pb-1" style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888">
+        <div class="px-3 pt-2 pb-1" style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#aaa">
           Comunes
         </div>
         <?php foreach ($comuni as $m): ?>
@@ -40,20 +133,18 @@
         <a href="?materia_id=<?= $m['id'] ?>"
            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2"
            style="<?= $activa ? 'background:#e8eaf6;border-left:4px solid #1a237e;font-weight:700' : 'border-left:4px solid transparent' ?>">
-          <span style="font-size:.93rem">
-            <?= htmlspecialchars($m['nom']) ?>
-          </span>
-          <span class="ms-1 d-flex gap-1 align-items-center flex-shrink-0">
-            <span class="codi-exemplar" style="font-size:.75rem"><?= htmlspecialchars($m['codi']) ?></span>
+          <span style="font-size:.88rem"><?= htmlspecialchars($m['nom']) ?></span>
+          <span class="d-flex gap-1 align-items-center flex-shrink-0">
+            <span class="codi-exemplar" style="font-size:.72rem"><?= htmlspecialchars($m['codi']) ?></span>
             <?php if ($m['num_llibres'] > 0): ?>
-            <span class="badge" style="background:#1565c0;color:#fff;font-size:.7rem"><?= $m['num_llibres'] ?></span>
+            <span class="badge" style="background:#1565c0;color:#fff;font-size:.68rem"><?= $m['num_llibres'] ?></span>
             <?php endif; ?>
           </span>
         </a>
         <?php endforeach; ?>
 
         <!-- Optatives -->
-        <div class="px-3 pt-2 pb-1" style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#888">
+        <div class="px-3 pt-2 pb-1" style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#aaa">
           Optatives
         </div>
         <?php foreach ($optativa as $m): ?>
@@ -61,13 +152,11 @@
         <a href="?materia_id=<?= $m['id'] ?>"
            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2"
            style="<?= $activa ? 'background:#e8eaf6;border-left:4px solid #1a237e;font-weight:700' : 'border-left:4px solid transparent' ?>">
-          <span style="font-size:.93rem">
-            <?= htmlspecialchars($m['nom']) ?>
-          </span>
-          <span class="ms-1 d-flex gap-1 align-items-center flex-shrink-0">
-            <span class="codi-exemplar" style="font-size:.75rem"><?= htmlspecialchars($m['codi']) ?></span>
+          <span style="font-size:.88rem"><?= htmlspecialchars($m['nom']) ?></span>
+          <span class="d-flex gap-1 align-items-center flex-shrink-0">
+            <span class="codi-exemplar" style="font-size:.72rem"><?= htmlspecialchars($m['codi']) ?></span>
             <?php if ($m['num_llibres'] > 0): ?>
-            <span class="badge" style="background:#0277bd;color:#fff;font-size:.7rem"><?= $m['num_llibres'] ?></span>
+            <span class="badge" style="background:#0277bd;color:#fff;font-size:.68rem"><?= $m['num_llibres'] ?></span>
             <?php endif; ?>
           </span>
         </a>
@@ -77,26 +166,18 @@
     </div>
   </div>
 
-  <!-- ===================== PANEL DRET: LLIBRES ===================== -->
+  <!-- Panel dret: llibres -->
   <div class="col-md-9">
 
-    <!-- Capçalera del panell dret -->
     <div class="d-flex align-items-center gap-2 mb-3">
-      <?php if ($materiaActual): ?>
-        <h4 class="fw-bold mb-0">
-          <span class="codi-exemplar me-1"><?= htmlspecialchars($materiaActual['codi']) ?></span>
-          <?= htmlspecialchars($materiaActual['nom']) ?>
-          <small class="text-muted fw-normal ms-1" style="font-size:.8rem">(<?= count($llibres) ?> llibres)</small>
-        </h4>
-      <?php else: ?>
-        <h4 class="fw-bold mb-0 text-muted">
-          <i class="bi bi-journal-text me-1"></i> Tots els llibres
-          <small class="fw-normal ms-1" style="font-size:.8rem">(<?= count($llibres) ?>)</small>
-        </h4>
-      <?php endif; ?>
+      <h4 class="fw-bold mb-0">
+        <span class="codi-exemplar me-1"><?= htmlspecialchars($materiaActual['codi']) ?></span>
+        <?= htmlspecialchars($materiaActual['nom']) ?>
+        <small class="text-muted fw-normal ms-1" style="font-size:.8rem">(<?= count($llibres) ?> llibres)</small>
+      </h4>
       <div class="ms-auto">
         <?php if (Auth::rol() === 'admin'): ?>
-        <a href="<?= BASE_URL ?>/llibres/nou.php<?= $filtreMateria ? '?materia_id='.$filtreMateria : '' ?>"
+        <a href="<?= BASE_URL ?>/llibres/nou.php?materia_id=<?= $filtreMateria ?>"
            class="btn btn-primary btn-sm">
           <i class="bi bi-plus-circle"></i> Nou llibre
         </a>
@@ -104,23 +185,13 @@
       </div>
     </div>
 
-    <?php if (!$filtreMateria && empty($llibres)): ?>
-      <!-- Estat buit global -->
-      <div class="card">
-        <div class="card-body text-center py-5">
-          <i class="bi bi-journal-text" style="font-size:3rem;color:#ccc"></i>
-          <p class="mt-3 text-muted">Seleccioneu una matèria per veure els llibres.</p>
-        </div>
-      </div>
-
-    <?php elseif (empty($llibres)): ?>
-      <!-- Matèria sense llibres -->
+    <?php if (empty($llibres)): ?>
       <div class="card">
         <div class="card-body text-center py-5">
           <i class="bi bi-journal-plus" style="font-size:2.5rem;color:#ccc"></i>
           <p class="mt-3 text-muted mb-3">Aquesta matèria no té cap llibre registrat.</p>
           <?php if (Auth::rol() === 'admin'): ?>
-          <a href="<?= BASE_URL ?>/llibres/nou.php" class="btn btn-primary">
+          <a href="<?= BASE_URL ?>/llibres/nou.php?materia_id=<?= $filtreMateria ?>" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Afegir primer llibre
           </a>
           <?php endif; ?>
@@ -128,72 +199,53 @@
       </div>
 
     <?php else: ?>
-      <!-- Grid de targetes de llibres -->
       <div class="row g-3">
         <?php foreach ($llibres as $l):
           $total = (int)($l['num_exemplars'] ?? 0);
           $disp  = (int)($l['num_disponibles'] ?? 0);
-          if ($total === 0)       { $color = '#9e9e9e'; $bg = '#f5f5f5'; }
-          elseif ($disp === $total) { $color = '#2e7d32'; $bg = '#e8f5e9'; }
-          elseif ($disp > 0)      { $color = '#1565c0'; $bg = '#e3f2fd'; }
-          else                    { $color = '#c62828'; $bg = '#ffebee'; }
+          if ($total === 0)          { $color = '#9e9e9e'; $bg = '#f5f5f5'; }
+          elseif ($disp === $total)  { $color = '#2e7d32'; $bg = '#e8f5e9'; }
+          elseif ($disp > 0)         { $color = '#1565c0'; $bg = '#e3f2fd'; }
+          else                       { $color = '#c62828'; $bg = '#ffebee'; }
         ?>
         <div class="col-sm-6 col-xl-4">
-          <div class="card h-100" style="border-top: 4px solid <?= $color ?>">
+          <div class="card h-100" style="border-top:4px solid <?= $color ?>">
             <div class="card-body pb-2">
-
-              <!-- Títol -->
               <div class="fw-bold mb-2 lh-sm" style="font-size:1rem">
                 <?= htmlspecialchars($l['titol']) ?>
               </div>
-
-              <!-- Badges de metadades -->
-              <div class="d-flex flex-wrap gap-1 mb-3">
-                <span class="codi-exemplar" style="font-size:.78rem"><?= htmlspecialchars($l['curs_codi']) ?></span>
-                <?php if (!$filtreMateria): ?>
-                <span class="badge" style="background:#e8eaf6;color:#283593;font-size:.75rem;font-weight:600">
-                  <?= htmlspecialchars($l['mat_codi']) ?>
-                </span>
-                <?php endif; ?>
+              <div class="d-flex flex-wrap gap-1 mb-2">
+                <span class="codi-exemplar" style="font-size:.76rem"><?= htmlspecialchars($l['curs_codi']) ?></span>
                 <?php if (!empty($l['isbn'])): ?>
-                <span style="font-size:.78rem;color:#888">ISBN <?= htmlspecialchars($l['isbn']) ?></span>
+                <span style="font-size:.76rem;color:#999">ISBN <?= htmlspecialchars($l['isbn']) ?></span>
                 <?php endif; ?>
               </div>
-
               <?php if (!empty($l['editorial'])): ?>
-              <div class="text-muted mb-2" style="font-size:.82rem">
+              <div class="text-muted mb-2" style="font-size:.8rem">
                 <i class="bi bi-building me-1"></i><?= htmlspecialchars($l['editorial']) ?>
               </div>
               <?php endif; ?>
-
-              <!-- Comptador d'exemplars -->
-              <div class="d-flex align-items-center gap-2 mt-auto pt-1"
-                   style="border-top:1px solid #eee;margin-top:.5rem">
-                <div style="text-align:center;min-width:48px">
-                  <div style="font-size:1.6rem;font-weight:800;color:<?= $color ?>;line-height:1">
-                    <?= $disp ?>
-                  </div>
-                  <div style="font-size:.7rem;color:#888;line-height:1.2">
-                    disp. / <?= $total ?>
-                  </div>
+              <div class="d-flex align-items-center gap-2 mt-auto pt-2" style="border-top:1px solid #eee">
+                <div style="text-align:center;min-width:44px">
+                  <div style="font-size:1.6rem;font-weight:800;color:<?= $color ?>;line-height:1"><?= $disp ?></div>
+                  <div style="font-size:.68rem;color:#aaa">disp./<?= $total ?></div>
                 </div>
-                <div class="flex-fill">
+                <div class="flex-fill" style="font-size:.8rem">
                   <?php if ($total === 0): ?>
-                    <span style="font-size:.8rem;color:#9e9e9e">Sense exemplars</span>
+                    <span style="color:#9e9e9e">Sense exemplars</span>
                   <?php elseif ($disp === $total): ?>
-                    <span style="font-size:.8rem;color:#2e7d32">Tots disponibles</span>
+                    <span style="color:#2e7d32">Tots disponibles</span>
                   <?php elseif ($disp > 0): ?>
-                    <span style="font-size:.8rem;color:#1565c0"><?= $total - $disp ?> en préstec</span>
+                    <span style="color:#1565c0"><?= $total - $disp ?> en préstec</span>
                   <?php else: ?>
-                    <span style="font-size:.8rem;color:#c62828">Tots en préstec</span>
+                    <span style="color:#c62828">Tots en préstec</span>
                   <?php endif; ?>
                 </div>
               </div>
-
             </div>
             <div class="card-footer bg-transparent pt-2 pb-2 d-flex gap-1">
               <a href="<?= BASE_URL ?>/exemplars/exemplars.php?llibre_id=<?= $l['id'] ?>"
-                 class="btn btn-sm btn-outline-primary flex-fill" title="Veure exemplars">
+                 class="btn btn-sm btn-outline-primary flex-fill">
                 <i class="bi bi-upc-scan"></i> Exemplars
               </a>
               <?php if (Auth::rol() === 'admin'): ?>
@@ -202,8 +254,7 @@
                         'id'=>$l['id'],'titol'=>$l['titol'],'isbn'=>$l['isbn'] ?? '',
                         'editorial'=>$l['editorial'] ?? '','materia_id'=>$l['materia_id'],
                         'curs_id'=>$l['curs_id']
-                      ]) ?>)'
-                      title="Editar">
+                      ]) ?>)'>
                 <i class="bi bi-pencil"></i>
               </button>
               <?php if ($total == 0): ?>
@@ -211,9 +262,7 @@
                     onsubmit="return confirm('Eliminar «<?= htmlspecialchars($l['titol'], ENT_QUOTES) ?>»?')">
                 <input type="hidden" name="accio" value="eliminar">
                 <input type="hidden" name="id" value="<?= $l['id'] ?>">
-                <button class="btn btn-sm btn-outline-danger" title="Eliminar">
-                  <i class="bi bi-trash"></i>
-                </button>
+                <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
               </form>
               <?php else: ?>
               <button class="btn btn-sm btn-outline-danger" disabled title="Té exemplars">
@@ -226,12 +275,12 @@
         </div>
         <?php endforeach; ?>
       </div>
-
     <?php endif; ?>
+
   </div>
 </div>
 
-<!-- ===================== MODAL EDITAR (admin) ===================== -->
+<!-- Modal editar (admin) -->
 <?php if (Auth::rol() === 'admin'): ?>
 <div class="modal fade" id="modalEditar" tabindex="-1">
   <div class="modal-dialog">
@@ -281,7 +330,6 @@
     </form>
   </div>
 </div>
-
 <script>
 function obrirEditar(l) {
   document.getElementById('editId').value        = l.id;
@@ -295,12 +343,75 @@ function obrirEditar(l) {
 </script>
 <?php endif; ?>
 
+<?php endif; ?>
+
 <style>
-.active-mat {
-  background: #e8eaf6 !important;
-  border-left: 4px solid #1a237e !important;
-  font-weight: 700;
+/* Targetes de selecció de matèria */
+.materia-card {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  background: #fff;
+  transition: transform .15s, box-shadow .15s;
+  cursor: pointer;
+  border: 1px solid #e8eaf6;
+  height: 100%;
 }
+.materia-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(26,35,126,.15);
+  border-color: #9fa8da;
+}
+.materia-card-top {
+  height: 6px;
+}
+.materia-card-body {
+  padding: 1rem 1.1rem .9rem;
+}
+.materia-card-codi {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .72rem;
+  background: #e8eaf6;
+  color: #283593;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-weight: 600;
+  margin-bottom: .5rem;
+}
+.materia-card-nom {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a237e;
+  line-height: 1.3;
+  margin-bottom: .75rem;
+  min-height: 2.6rem;
+}
+.materia-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f0f0f0;
+  padding-top: .6rem;
+}
+.materia-card-count {
+  font-size: .8rem;
+  color: #555;
+}
+.materia-card-empty {
+  font-size: .78rem;
+  color: #bbb;
+}
+.materia-card-arrow {
+  font-size: 1.2rem;
+  color: #c5cae9;
+  transition: color .15s, transform .15s;
+}
+.materia-card:hover .materia-card-arrow {
+  color: #1a237e;
+  transform: translateX(2px);
+}
+/* Sidebar */
 .list-group-item { border-left: 4px solid transparent; }
 .list-group-item:hover { background: #f5f5f5; }
 </style>
