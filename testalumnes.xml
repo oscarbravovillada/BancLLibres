@@ -6,7 +6,7 @@
     nom="Hugo"
     cognom1="Garrido"
     cognom2="Soler"
-    classe="1ASIR-A"
+    classe="1ASIX-A"
     email_familia="familia.hugo@example.com"
     telefon_familia="600111111"
   />
@@ -17,7 +17,7 @@
     nom="Maria"
     cognom1="Pérez"
     cognom2="Vidal"
-    classe="1ASIR-A"
+    classe="1ASIX-A"
     email_familia="familia.maria@example.com"
     telefon_familia="600222222"
   />
@@ -28,7 +28,7 @@
     nom="Josep"
     cognom1="Martínez"
     cognom2="Soler"
-    classe="1ASIR-A"
+    classe="1ASIX-A"
     email_familia="familia.josep@example.com"
     telefon_familia="600333333"
   />
