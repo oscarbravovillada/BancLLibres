@@ -8,6 +8,27 @@ Auth::requireLogin();
 $titolPagina  = 'Nou alumne';
 $paginaActiva = 'alumnes';
 
+function slug3nou(string $txt): string {
+    $txt = iconv('UTF-8', 'ASCII//TRANSLIT', trim($txt)) ?: $txt;
+    return substr(preg_replace('/[^a-z0-9]/', '', strtolower($txt)), 0, 3);
+}
+
+function generarEmailAlumne(string $nom, string $cognoms): string {
+    $parts   = explode(' ', $cognoms, 2);
+    $cognom1 = $parts[0] ?? '';
+    $cognom2 = $parts[1] ?? '';
+    $base    = slug3nou($nom) . slug3nou($cognom1) . slug3nou($cognom2);
+    if ($base === '') $base = 'alumne';
+
+    $username = $base;
+    $i = 1;
+    while (Database::fetchOne("SELECT id FROM alumnes WHERE email_institucional = ?",
+           [$username . '@alu.edu.gva.es'])) {
+        $username = $base . $i++;
+    }
+    return $username . '@alu.edu.gva.es';
+}
+
 $classes = Database::fetchAll(
     "SELECT id, nom FROM classes WHERE curs_escolar = ? ORDER BY nom",
     [ANY_ESCOLAR]
@@ -27,10 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$errors) {
+        $emailInst = generarEmailAlumne($nom, $cognoms);
         Database::execute(
-            "INSERT INTO alumnes (nom, cognoms, email_familia, telefon_familia, classe_id, actiu)
-             VALUES (?,?,?,?,?,1)",
-            [$nom, $cognoms, $email_familia, $telefon, $classe_id]
+            "INSERT INTO alumnes (nom, cognoms, email_familia, telefon_familia, classe_id, actiu, email_institucional)
+             VALUES (?,?,?,?,?,1,?)",
+            [$nom, $cognoms, $email_familia, $telefon, $classe_id, $emailInst]
         );
         header('Location: ' . BASE_URL . '/alumnes/llista.php?classe_id=' . $classe_id);
         exit;

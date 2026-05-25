@@ -63,10 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['xml']) && $_FILES['x
                 $alumne = Database::fetchOne("SELECT * FROM alumnes WHERE dni = ?", [$dni]);
             }
 
-            // Generar username 3+3
-            $uNom   = slug3($nom);
-            $uCog   = slug3($cognom1);
-            $baseUsername = $uNom . $uCog;
+            // Generar username 3+3+3
+            $uNom         = slug3($nom);
+            $uCog1        = slug3($cognom1);
+            $uCog2        = slug3($cognom2);
+            $baseUsername = $uNom . $uCog1 . $uCog2;
             if ($baseUsername === '') {
                 $baseUsername = strtolower($nia ?: $dni);
             }
