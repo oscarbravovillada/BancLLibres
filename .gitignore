@@ -5,18 +5,11 @@ config/config.php
 private/pdf/
 private/exports/
 
-# PDFs solts a l'arrel (generats durant proves)
-*.pdf
-# Excepció: documentació del projecte
-!manual_banc_llibres.pdf
+# Dades d'importació (XMLs de prova i dades reals)
+data/
 
-# XMLs amb dades personals (alumnes, professors)
-alumnes.xml
-testalumnes.xml
-professors.xml
-
-# Contrasenyes CSV
-contrasenyes_*.csv
+# Documentació (no cal al repo)
+docs/
 
 # Composer (PHPMailer s'instal·la via composer install)
 vendor/phpmailer/
