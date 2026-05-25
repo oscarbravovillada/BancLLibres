@@ -62,13 +62,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 [$id, $alumne_id]
             );
 
-            $retornats[] = Database::fetchOne(
+            $ex_ret = Database::fetchOne(
                 "SELECT e.codi, l.titol, m.nom AS materia
                  FROM exemplars e
                  JOIN llibres l ON e.llibre_id = l.id
                  JOIN materies m ON l.materia_id = m.id
                  WHERE e.id = ?",
                 [$id]
+            );
+            $retornats[] = $ex_ret;
+
+            /* Historial */
+            Database::insert(
+                "INSERT INTO historial (alumne_id, exemplar_id, accio, detalls, usuari_id) VALUES (?,?,?,?,?)",
+                [$alumne_id, $id, 'devolucio', "Retornat: {$ex_ret['codi']} — {$ex_ret['titol']}", Auth::id()]
             );
         }
 
@@ -94,6 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 "INSERT INTO incidencies (alumne_id, exemplar_id, tipus, descripcio)
                  VALUES (?, ?, 'perdua', 'Pèrdua automàtica en devolució')",
                 [$alumne_id, $id]
+            );
+
+            /* Historial */
+            $ex_perd = Database::fetchOne("SELECT e.codi, l.titol FROM exemplars e JOIN llibres l ON e.llibre_id=l.id WHERE e.id=?", [$id]);
+            Database::insert(
+                "INSERT INTO historial (alumne_id, exemplar_id, accio, detalls, usuari_id) VALUES (?,?,?,?,?)",
+                [$alumne_id, $id, 'perdua', "Perdut en devolució: {$ex_perd['codi']} — {$ex_perd['titol']}", Auth::id()]
             );
 
             $no_retornats[] = [

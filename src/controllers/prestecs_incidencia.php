@@ -61,6 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             [$alumne_id, $exemplar_id, $tipus, $descripcio, $ha_de_pagar, $import, Auth::id()]
         );
 
+        /* Historial */
+        Database::insert(
+            "INSERT INTO historial (alumne_id, exemplar_id, accio, detalls, usuari_id) VALUES (?,?,?,?,?)",
+            [$alumne_id, $exemplar_id, 'incidencia', "{$tipus}: {$descripcio}", Auth::id()]
+        );
+
         if (in_array($tipus, ['perdua', 'extraviu'])) {
             Database::execute(
                 "UPDATE exemplars SET estat = 'perdut', disponible = 0 WHERE id = ?",

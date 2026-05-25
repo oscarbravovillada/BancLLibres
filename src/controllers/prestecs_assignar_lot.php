@@ -121,6 +121,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             [$alumne_id, $exemplar_id, $lot_id]
         );
 
+        /* Historial */
+        Database::insert(
+            "INSERT INTO historial (alumne_id, exemplar_id, accio, detalls, usuari_id) VALUES (?,?,?,?,?)",
+            [$alumne_id, $exemplar_id, 'prestec', "Lot {$codi_lot} — {$ex_info['materia']}: {$nou_codi}", Auth::id()]
+        );
+
         $exemplars_prestats[] = [
             'codi'          => $nou_codi,
             'titol'         => $ex_info['titol'],
