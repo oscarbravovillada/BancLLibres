@@ -28,21 +28,18 @@
 <!-- Acordió per etapes -->
 <div class="accordion" id="acordioMateries">
 
-<?php $primerObert = true; ?>
 <?php foreach ($grups as $clau => $grup): ?>
 
 <?php
   $totalLlibres = array_sum(array_column($grup['materies'], 'num_llibres'));
   $id = 'grup-mat-' . strtolower($clau);
-  $obert = $primerObert;
-  if ($primerObert) $primerObert = false;
 ?>
 
 <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden shadow-sm">
 
   <!-- Capçalera del grup -->
   <h2 class="accordion-header">
-    <button class="accordion-button <?= $obert ? '' : 'collapsed' ?> fw-semibold py-3"
+    <button class="accordion-button collapsed fw-semibold py-3"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#<?= $id ?>"
@@ -63,7 +60,7 @@
   </h2>
 
   <!-- Contingut del grup -->
-  <div id="<?= $id ?>" class="accordion-collapse collapse <?= $obert ? 'show' : '' ?>"
+  <div id="<?= $id ?>" class="accordion-collapse collapse"
        data-bs-parent="#acordioMateries">
     <div class="accordion-body pt-3 pb-4" style="background:<?= $grup['color'] ?>08">
 
