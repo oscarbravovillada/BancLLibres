@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memòria del Projecte — Banc de Llibres · IES PORÇONS</title>
+<style>
+  :root {
+    --blue:   #1a4fa0;
+    --green:  #198754;
+    --orange: #e65100;
+    --red:    #c62828;
+    --gray:   #495057;
+    --light:  #f8f9fa;
+    --border: #dee2e6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #212529;
+    background: #fff;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* ─── Portada ─── */
+  .portada {
+    text-align: center;
+    padding: 60px 0 50px;
+    border-bottom: 3px solid var(--blue);
+    margin-bottom: 50px;
+  }
+  .portada .centre { font-size: 1.1rem; color: var(--gray); margin-bottom: 6px; }
+  .portada h1 { font-size: 2.6rem; color: var(--blue); line-height: 1.2; margin: 18px 0 10px; }
+  .portada .subtitol { font-size: 1.2rem; color: var(--gray); margin-bottom: 30px; }
+  .portada .meta { font-size: 0.9rem; color: #6c757d; }
+  .portada .meta strong { color: #212529; }
+
+  /* ─── Índex ─── */
+  .index-box {
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 50px;
+  }
+  .index-box h2 { font-size: 1rem; color: var(--gray); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+  .index-box ol { padding-left: 22px; }
+  .index-box li { margin-bottom: 5px; }
+  .index-box a { color: var(--blue); text-decoration: none; }
+  .index-box a:hover { text-decoration: underline; }
+  .index-box ol ol { margin-top: 4px; }
+
+  /* ─── Seccions ─── */
+  h2.seccio {
+    font-size: 1.55rem;
+    color: var(--blue);
+    border-left: 5px solid var(--blue);
+    padding: 6px 14px;
+    margin: 48px 0 18px;
+    background: #e8f0fb;
+    border-radius: 0 6px 6px 0;
+  }
+  h3 { font-size: 1.15rem; color: var(--green); margin: 28px 0 10px; }
+  h4 { font-size: 1rem; color: var(--orange); margin: 20px 0 8px; }
+  p { margin-bottom: 14px; }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li { margin-bottom: 5px; }
+
+  /* ─── Caixes ─── */
+  .box { padding: 14px 18px; border-radius: 6px; margin: 16px 0; }
+  .box-info  { background: #e3f2fd; border-left: 4px solid #1976d2; }
+  .box-why   { background: #e8f5e9; border-left: 4px solid var(--green); }
+  .box-warn  { background: #fff3e0; border-left: 4px solid #f57c00; }
+  .box-danger{ background: #ffebee; border-left: 4px solid var(--red); }
+  .box-code  { background: #f3f4f6; border-left: 4px solid var(--gray); }
+  .box strong { display: block; margin-bottom: 4px; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; color: var(--gray); }
+
+  /* ─── Codi ─── */
+  code { background: #f3f4f6; border: 1px solid #ddd; border-radius: 3px; padding: 1px 5px; font-family: 'Consolas', 'Courier New', monospace; font-size: .88em; }
+  pre  { background: #1e2030; color: #cdd6f4; border-radius: 8px; padding: 16px 20px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: .85em; line-height: 1.55; margin: 14px 0; }
+  pre .comment { color: #6c7086; }
+  pre .kw  { color: #cba6f7; }
+  pre .str { color: #a6e3a1; }
+  pre .fn  { color: #89b4fa; }
+
+  /* ─── Taules ─── */
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: .92em; }
+  th { background: var(--blue); color: #fff; padding: 9px 14px; text-align: left; }
+  td { padding: 8px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--light); }
+
+  /* ─── Badges ─── */
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: .78em; font-weight: 600; }
+  .badge-red  { background: #ffebee; color: var(--red); border: 1px solid #ef9a9a; }
+  .badge-org  { background: #fff3e0; color: var(--orange); border: 1px solid #ffcc80; }
+  .badge-grn  { background: #e8f5e9; color: var(--green); border: 1px solid #a5d6a7; }
+  .badge-blue { background: #e3f2fd; color: var(--blue); border: 1px solid #90caf9; }
+
+  /* ─── Footer ─── */
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); color: #6c757d; font-size: .85rem; text-align: center; }
+
+  /* ─── Print ─── */
+  @media print {
+    body { max-width: 100%; padding: 20px; font-size: 13px; }
+    .portada { padding: 30px 0; }
+    h2.seccio { break-before: page; }
+    pre { white-space: pre-wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     PORTADA
+═══════════════════════════════════════════════ -->
+<div class="portada">
+  <div class="centre">IES PORÇONS · Cicle Formatiu de Grau Superior</div>
+  <h1>Banc de Llibres<br><span style="font-size:.6em;color:#555">Aplicació web de gestió de préstecs</span></h1>
+  <div class="subtitol">Memòria tècnica del projecte</div>
+  <div class="meta">
+    <strong>Alumne:</strong> Oscar Bravo Villada &nbsp;·&nbsp;
+    <strong>Curs:</strong> 2025/2026 &nbsp;·&nbsp;
+    <strong>Data:</strong> Maig 2026<br>
+    <strong>Repositori:</strong> github.com/oscarbravovillada/BancLLibres &nbsp;·&nbsp;
+    <strong>Entorn:</strong> XAMPP + Ubuntu 22.04 LTS
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÍNDEX
+═══════════════════════════════════════════════ -->
+<div class="index-box">
+  <h2>Índex</h2>
+  <ol>
+    <li><a href="#intro">Introducció i objectius</a></li>
+    <li><a href="#entorn">Entorn tecnològic</a></li>
+    <li><a href="#arquitectura">Arquitectura de l'aplicació</a>
+      <ol>
+        <li><a href="#estructura">Estructura de fitxers</a></li>
+        <li><a href="#bd">Model de dades (base de dades)</a></li>
+        <li><a href="#helpers">Helpers: Database i Auth</a></li>
+      </ol>
+    </li>
+    <li><a href="#funcionalitats">Funcionalitats implementades</a>
+      <ol>
+        <li><a href="#auth">Autenticació i control d'accés</a></li>
+        <li><a href="#alumnes">Gestió d'alumnes</a></li>
+        <li><a href="#llibres">Gestió de llibres i exemplars</a></li>
+        <li><a href="#prestecs">Gestió de préstecs</a></li>
+        <li><a href="#devolucio">Devolució i estats de préstec</a></li>
+        <li><a href="#incidencies">Incidències i càrrecs econòmics</a></li>
+        <li><a href="#pdfs">Generació de PDFs (albarans)</a></li>
+        <li><a href="#correu">Notificacions per correu electrònic</a></li>
+        <li><a href="#importar">Importació massiva des de XML</a></li>
+        <li><a href="#historial">Historial d'auditoria</a></li>
+      </ol>
+    </li>
+    <li><a href="#refactor">Refactorització: simplificació de fitxers</a></li>
+    <li><a href="#seguretat">Seguretat</a>
+      <ol>
+        <li><a href="#csrf">Protecció CSRF</a></li>
+        <li><a href="#sessio">Seguretat de sessió</a></li>
+        <li><a href="#headers">Capçaleres HTTP de seguretat</a></li>
+        <li><a href="#path">Prevenció de path traversal</a></li>
+        <li><a href="#debug">Mode de depuració</a></li>
+      </ol>
+    </li>
+    <li><a href="#documentacio">Documentació generada</a></li>
+    <li><a href="#conclusions">Conclusions i millores futures</a></li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     1. INTRODUCCIÓ
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="intro">1. Introducció i objectius</h2>
+
+<p>
+L'IES PORÇONS gestiona cada any l'assignació de llibres de text als alumnes a través del programa públic <em>Banc de Llibres</em>, que permet als centres recollir, custodiar i redistribuir els llibres entre cursos. Fins ara, el centre gestionava tot el procés manualment, amb fulls de càlcul i llistats en paper, cosa que generava errors, duplicitats i molta feina administrativa.
+</p>
+<p>
+L'objectiu d'aquest projecte és substituir aquest procés manual per una <strong>aplicació web</strong> accessible des de qualsevol ordinador de la xarxa del centre, que permeti als professors i a l'administrador:
+</p>
+<ul>
+  <li>Registrar i consultar l'estat de cada exemplar de llibre.</li>
+  <li>Assignar lots de llibres a alumnes al inici de curs i gestionar les devolucions al final.</li>
+  <li>Registrar incidències (pèrdues, deterioraments) i els càrrecs econòmics associats.</li>
+  <li>Generar albarans en PDF que es poden imprimir i enviar per correu a les famílies.</li>
+  <li>Filtrar la informació per rol: els professors sols veuen els alumnes de les seves classes.</li>
+</ul>
+
+<div class="box box-why">
+  <strong>Per què una aplicació web pròpia?</strong>
+  Es va descartar l'ús de programari genèric (Odoo, aplicatius de la Conselleria) perquè no s'adaptaven al flux de treball concret del centre, implicaven llicències de pagament o depenien d'infraestructura externa fora del control del centre. Amb una aplicació pròpia sobre XAMPP, el centre manté el control total de les dades i no depèn de serveis de tercers.
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     2. ENTORN TECNOLÒGIC
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="entorn">2. Entorn tecnològic</h2>
+
+<table>
+  <tr><th>Component</th><th>Versió</th><th>Funció</th></tr>
+  <tr><td><strong>Ubuntu</strong></td><td>22.04 LTS</td><td>Sistema operatiu del servidor</td></tr>
+  <tr><td><strong>XAMPP</strong></td><td>8.2.x</td><td>Stack Apache + PHP + MariaDB tot en un</td></tr>
+  <tr><td><strong>PHP</strong></td><td>8.2</td><td>Lògica de servidor</td></tr>
+  <tr><td><strong>MariaDB</strong></td><td>10.x</td><td>Base de dades relacional</td></tr>
+  <tr><td><strong>Bootstrap</strong></td><td>5.3.3</td><td>Disseny responsive (CDN)</td></tr>
+  <tr><td><strong>Bootstrap Icons</strong></td><td>1.11.3</td><td>Icones (CDN)</td></tr>
+  <tr><td><strong>FPDF</strong></td><td>1.86</td><td>Generació de PDFs en PHP</td></tr>
+  <tr><td><strong>PHPMailer</strong></td><td>6.x</td><td>Enviament de correus via SMTP</td></tr>
+  <tr><td><strong>Git / GitHub</strong></td><td>—</td><td>Control de versions</td></tr>
+</table>
+
+<div class="box box-why">
+  <strong>Per què XAMPP i no un servidor Linux «pur»?</strong>
+  XAMPP facilita la instal·lació i el manteniment en un entorn escolar on el personal TIC no sempre té coneixements avançats de Linux. Tot el stack (Apache, PHP, MariaDB) s'instal·la i s'inicia amb un sol paquet, i la gestió es pot fer des d'una interfície gràfica si cal.
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     3. ARQUITECTURA
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="arquitectura">3. Arquitectura de l'aplicació</h2>
+
+<h3 id="estructura">3.1 Estructura de fitxers</h3>
+<p>
+L'aplicació segueix un patró senzill on <strong>cada pàgina és un sol fitxer PHP</strong>, organitzat per mòdul funcional. Cada fitxer conté la lògica de negoci a la part superior (processament del formulari, consultes a la BD) i la vista HTML a la part inferior.
+</p>
+
+<div class="box box-info">
+  <strong>Evolució de l'arquitectura</strong>
+  En una fase inicial el projecte separava cada pàgina en tres capes: un fitxer d'entrada (1 línia), un controlador i una vista. Això generava ~76 fitxers PHP per a les mateixes 23 pàgines. Es va decidir fusionar les tres capes en un sol fitxer per pàgina (seguint el patró que ja usava el dashboard <code>index.php</code>), reduint el total a ~30 fitxers i fent el codi molt més fàcil de llegir i mantenir.
+</div>
+
+<pre>
+/opt/lampp/htdocs/BancLLibres/
+├── alumnes/       fitxa.php · llista.php · nou.php · importar.php
+├── classes/       classes.php · importar.php
+├── exemplars/     exemplars.php · nou.php
+├── incidencies/   index.php
+├── llibres/       llibres.php · nou.php · importar.php
+├── materies/      materies.php · importar.php
+├── prestecs/      index.php · prestecs.php · assignar_lot.php
+│                  afegir_optativa.php · devolucio.php
+│                  incidencia.php · historial.php · reenviar.php
+├── professors/    importar.php
+├── admin/         veure_pdf.php · download.php · ...
+├── src/
+│   ├── helpers/   Auth.php · Database.php · Codis.php
+│   └── views/     layout_top.php · layout_bottom.php · layout_styles.css
+├── vendor/        PdfGenerator.php · MailSender.php · fpdf/
+├── config/        config.php  (gitignored — conté credencials)
+├── database/      schema.sql
+└── index.php · login.php · logout.php · usuaris.php
+</pre>
+
+<h3 id="bd">3.2 Model de dades</h3>
+<p>La base de dades <code>banc_llibres</code> conté <strong>15 taules</strong>:</p>
+
+<table>
+  <tr><th>Taula</th><th>Propòsit</th></tr>
+  <tr><td><code>usuaris</code></td><td>Comptes de l'aplicació (admins i professors)</td></tr>
+  <tr><td><code>cursos</code></td><td>Cursos acadèmics (1ESO, 2ESO, 1BATX…)</td></tr>
+  <tr><td><code>classes</code></td><td>Grups per curs, amb tutor assignat</td></tr>
+  <tr><td><code>professor_classe</code></td><td>Relació N:M entre professors i classes (un professor pot tenir diverses classes)</td></tr>
+  <tr><td><code>alumnes</code></td><td>Alumnes del centre, vinculats a una classe</td></tr>
+  <tr><td><code>materies</code></td><td>Assignatures (Matemàtiques, Física…)</td></tr>
+  <tr><td><code>llibres</code></td><td>Títols de llibres (catàleg)</td></tr>
+  <tr><td><code>exemplars</code></td><td>Còpies físiques de cada títol, amb estat i codi únic</td></tr>
+  <tr><td><code>lots</code></td><td>Agrupació d'exemplars per curs per assignació massiva</td></tr>
+  <tr><td><code>prestecs</code></td><td>Registre de cada préstec: qui té quin exemplar i des de quan</td></tr>
+  <tr><td><code>incidencies</code></td><td>Pèrdues, deterioraments i càrrecs econòmics</td></tr>
+  <tr><td><code>historial</code></td><td>Log d'auditoria de totes les accions</td></tr>
+  <tr><td><code>albarans</code></td><td>PDFs generats (préstec, devolució, incidència)</td></tr>
+  <tr><td><code>enviaments_correu</code></td><td>Registre dels correus enviats a les famílies</td></tr>
+  <tr><td><code>documents</code></td><td>Documents addicionals per alumne</td></tr>
+</table>
+
+<div class="box box-why">
+  <strong>Per què separar <code>llibres</code> d'<code>exemplars</code>?</strong>
+  Un <em>llibre</em> és el títol (ex. "Matemàtiques 1r ESO, Vicens Vives"). Un <em>exemplar</em> és la còpia física concreta amb un codi de barres propi i un estat (bo, deteriorat, perdut). Separar-los permet saber quants exemplars hi ha de cada títol, quin n'és l'estat i qui el té en cada moment, sense duplicar la informació del títol.
+</div>
+
+<h3 id="helpers">3.3 Helpers: Database i Auth</h3>
+
+<h4>Database.php</h4>
+<p>
+Encapsula la connexió PDO i ofereix tres mètodes estàtics que eliminen el codi repetitiu de preparació de consultes:
+</p>
+<pre>
+<span class="comment">// Retorna un array de files</span>
+$prestecs = Database::<span class="fn">fetchAll</span>(<span class="str">"SELECT * FROM prestecs WHERE alumne_id = ?"</span>, [$id]);
+
+<span class="comment">// Retorna una sola fila o null</span>
+$alumne = Database::<span class="fn">fetchOne</span>(<span class="str">"SELECT * FROM alumnes WHERE id = ?"</span>, [$id]);
+
+<span class="comment">// Executa INSERT/UPDATE/DELETE, retorna last insert id o rows affected</span>
+Database::<span class="fn">execute</span>(<span class="str">"UPDATE exemplars SET disponible=1 WHERE id=?"</span>, [$id]);
+</pre>
+
+<div class="box box-why">
+  <strong>Per què PDO i no mysqli?</strong>
+  PDO suporta múltiples motors de BD (per si algun dia canvia de MariaDB a PostgreSQL), té una interfície més consistent i els <em>prepared statements</em> prevenen injeccions SQL de forma nativa sense cap gestió manual d'escapament.
+</div>
+
+<h4>Auth.php</h4>
+<p>Centralitza tota la lògica d'autenticació, autorització i seguretat de sessió:</p>
+<ul>
+  <li><code>requireLogin()</code>: redirigeix a login si no hi ha sessió; comprova timeout de 2h.</li>
+  <li><code>requireAdmin()</code>: limita l'accés a usuaris amb rol <em>admin</em>.</li>
+  <li><code>requireAccessToAlumne()</code>: comprova si el professor logat té accés a l'alumne via la taula <code>professor_classe</code>.</li>
+  <li><code>csrfToken() / csrfField() / csrfCheck()</code>: gestió completa de tokens CSRF.</li>
+</ul>
+
+
+<!-- ═══════════════════════════════════════════════
+     4. FUNCIONALITATS
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="funcionalitats">4. Funcionalitats implementades</h2>
+
+<h3 id="auth">4.1 Autenticació i control d'accés per rols</h3>
+<p>
+L'aplicació té dos rols: <strong>admin</strong> (visió global, pot gestionar usuaris i classes) i <strong>professor</strong> (sols veu i gestiona els alumnes de les seves classes assignades).
+</p>
+<p>
+La restricció per classes es fa a dos nivells:
+</p>
+<ul>
+  <li><strong>Llistes</strong>: les consultes SQL incorporen un JOIN amb <code>professor_classe</code> per filtrar.</li>
+  <li><strong>Accions individuals</strong>: cada controlador que rep un <code>alumne_id</code> crida <code>Auth::requireAccessToAlumne()</code>, que comprova a la BD si el professor té permís. Si no, redirigeix amb error 403.</li>
+</ul>
+
+<div class="box box-why">
+  <strong>Per què la restricció a dos nivells?</strong>
+  No n'hi ha prou de filtrar les llistes. Si un professor malintencionat escriu manualment una URL com <code>/prestecs/devolucio.php?alumne_id=99</code>, sense la comprovació individual podria actuar sobre alumnes d'altres professors. La doble validació tanca aquest forat (IDOR).
+</div>
+
+<h3 id="alumnes">4.2 Gestió d'alumnes</h3>
+<p>
+Els alumnes es poden donar d'alta manualment o importar massivament des d'un fitxer XML (format compatible amb el sistema ITACA de la Conselleria d'Educació). La importació crea automàticament els comptes d'usuari dels alumnes i genera un CSV amb les contrasenyes inicials per distribuir a les famílies.
+</p>
+
+<h3 id="llibres">4.3 Gestió de llibres i exemplars</h3>
+<p>
+El catàleg de llibres (<code>titol, isbn, editorial, materia, curs</code>) es gestiona des del menú <strong>Llibres</strong>. Per a cada títol es poden crear tants exemplars com còpies físiques hi hagi, cadascun amb un codi únic que segueix el format:
+</p>
+<ul>
+  <li><code>LOT-[CURS]-[NUM]-[MAT]-[EX]</code> per a matèries comunes (ex: <code>LOT-1ESO-001-MAT-03</code>)</li>
+  <li><code>OPT-[CURS]-[MAT]-[EX]</code> per a optatives</li>
+</ul>
+<p>Els exemplars s'agrupen en <strong>lots</strong> per curs, que permeten assignar tots els llibres d'un curs a un alumne amb una sola acció.</p>
+
+<h3 id="prestecs">4.4 Gestió de préstecs</h3>
+<p>Hi ha dues formes d'assignar exemplars:</p>
+<ul>
+  <li><strong>Assignar lot</strong>: seleccionar el lot corresponent al curs de l'alumne assigna tots els exemplars disponibles del lot de cop, genera l'albarà de préstec en PDF i l'envia per correu a la família.</li>
+  <li><strong>Afegir optativa</strong>: per a assignatures electives, es selecciona la matèria i el sistema cerca i assigna l'exemplar disponible d'aquell títol.</li>
+</ul>
+
+<h3 id="devolucio">4.5 Devolució i estats de préstec</h3>
+<p>
+En registrar una devolució, el professor indica l'estat de cada exemplar:
+</p>
+<table>
+  <tr><th>Estat</th><th>Descripció</th><th>Efecte al sistema</th></tr>
+  <tr><td><span class="badge badge-grn">Retornat</span></td><td>El llibre s'ha lliurat correctament</td><td>L'exemplar queda disponible per al curs següent</td></tr>
+  <tr><td><span class="badge badge-org">Pendent</span></td><td>L'alumne no ha portat el llibre avui</td><td>El préstec queda actiu; l'exemplar segueix vinculat a l'alumne</td></tr>
+  <tr><td><span class="badge badge-red">Perdut</span></td><td>El llibre no es recuperarà</td><td>Es crea una incidència automàtica; l'exemplar es marca com a perdut</td></tr>
+</table>
+<p>
+L'albarà de devolució PDF inclou la llista de retornats, els pendents, els perduts i els possibles càrrecs econòmics pendents de pagament.
+</p>
+
+<h3 id="incidencies">4.6 Incidències i càrrecs econòmics</h3>
+<p>
+Es pot registrar una incidència manualment (deteriorament lleu, greu, pèrdua, altres) o es crea automàticament quan un exemplar es marca com a perdut en la devolució. Cada incidència pot tenir un import a pagar associat; quan la família paga, l'admin la marca com a pagada des del llistat d'incidències.
+</p>
+
+<h3 id="pdfs">4.7 Generació de PDFs (albarans)</h3>
+<p>
+Tots els PDFs es generen amb la classe <strong>FPDF</strong>, una biblioteca PHP que permet dibuixar cel·les, línies i text sense dependre de cap extensió externa del servidor. La classe <code>PdfGenerator</code> centralitza la generació dels tres tipus d'albarà: <em>préstec</em>, <em>devolució</em> i <em>incidència</em>.
+</p>
+<p>Cada albarà inclou:</p>
+<ul>
+  <li>Capçalera amb el nom del centre (IES PORÇONS) i la data.</li>
+  <li>Bloc de dades de l'alumne (nom, classe, tutor).</li>
+  <li>Taula d'exemplars amb codi, títol, matèria i estat.</li>
+  <li>Zona de firmes del professor responsable i la família.</li>
+</ul>
+
+<div class="box box-warn">
+  <strong>Dificultat tècnica: encoding ISO-8859-1</strong>
+  FPDF no suporta UTF-8 nativament. Tots els textos s'han de convertir amb <code>iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $text)</code> abans de passar-los a FPDF. Sense aquesta conversió, els caràcters especials catalans (à, è, ï, ç…) apareixien com a caràcters incorrectes al PDF.
+</div>
+
+<h3 id="correu">4.8 Notificacions per correu electrònic</h3>
+<p>
+Quan es genera un albarà, si l'alumne té adreça de correu de família configurada, el PDF s'envia automàticament com a adjunt. S'utilitza <strong>PHPMailer</strong> amb SMTP autenticat sobre Microsoft 365 (port 587, STARTTLS). Tots els enviaments queden registrats a la taula <code>enviaments_correu</code>.
+</p>
+<p>
+Si el servidor SMTP no és accessible (per exemple, en entorn de desenvolupament), l'error es captura silenciosament amb un bloc <code>try/catch</code> perquè no bloquegi el flux principal.
+</p>
+
+<h3 id="importar">4.9 Importació massiva des de XML</h3>
+<p>
+Per evitar haver d'introduir centenars d'alumnes manualment, l'aplicació permet importar fitxers XML compatibles amb el sistema ITACA (el sistema de gestió acadèmica de la Conselleria d'Educació Valenciana). Existeix un importador per a cada entitat: alumnes, professors, classes, llibres i matèries.
+</p>
+<p>
+El procés d'importació d'alumnes crea automàticament el compte d'usuari amb una contrasenya generada aleatòriament, la desa hashejada a la BD i escriu les credencials en clar a un CSV protegit a <code>private/exports/</code> per tal que l'admin pugui distribuir-les.
+</p>
+
+<h3 id="historial">4.10 Historial d'auditoria</h3>
+<p>
+Cada acció rellevant (préstec, devolució, incidència, enviament de correu) queda registrada a la taula <code>historial</code> amb la data, l'usuari que l'ha fet i un text descriptiu. Això permet reconstruir tot el historial d'un alumne o d'un exemplar en cas de disputa o error.
+</p>
+
+
+<!-- ═══════════════════════════════════════════════
+     5. REFACTORITZACIÓ
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="refactor">5. Refactorització: simplificació de fitxers</h2>
+
+<p>
+A mig projecte, l'estructura de fitxers seguia el patró MVC estricte: un fitxer d'entrada, un controlador i una vista per cada pàgina, és a dir, <strong>3 fitxers per pàgina × 23 pàgines = ~69 fitxers</strong>, més el layout i els helpers. Això suposava un total d'uns 76 fitxers PHP.
+</p>
+
+<table>
+  <tr><th>Situació inicial</th><th>Situació final</th></tr>
+  <tr>
+    <td>
+      <code>alumnes/fitxa.php</code> (1 línia)<br>
+      → <code>src/controllers/alumnes_fitxa.php</code> (lògica)<br>
+      → <code>src/views/alumnes_fitxa.php</code> (HTML)
+    </td>
+    <td>
+      <code>alumnes/fitxa.php</code><br>
+      (lògica PHP al capdamunt + HTML a baix)
+    </td>
+  </tr>
+</table>
+
+<p>El resultat de la refactorització:</p>
+<ul>
+  <li>Eliminats <strong>46 fitxers</strong> (23 controladors + 23 vistes).</li>
+  <li>Cada pàgina = 1 sol fitxer, com ja feia el dashboard <code>index.php</code>.</li>
+  <li>Navegar el codi és molt més ràpid: no cal seguir el fil de 3 fitxers per entendre una pàgina.</li>
+  <li>S'utilitza un script Python per fer la fusió de forma automatitzada i fiable (actualització de paths, eliminació de la línia <code>include vista</code>, tractament del context PHP obert).</li>
+</ul>
+
+<div class="box box-why">
+  <strong>Per què fusionar i no mantenir la separació MVC?</strong>
+  La separació MVC aporta valor real quan la mateixa lògica pot reutilitzar-se amb vistes diferents (per exemple, una API JSON i una vista HTML del mateix recurs). En aquest projecte, cada pàgina té exactament una vista i una font de dades, de manera que la separació en tres fitxers afegeix complexitat sense cap benefici. L'enfocament d'un fitxer per pàgina és més senzill, més llegible i és el patró que usa el dashboard des del principi.
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     6. SEGURETAT
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="seguretat">6. Seguretat</h2>
+
+<p>
+Una vegada l'aplicació estava funcional, es va realitzar una <strong>auditoria de seguretat</strong> per identificar i corregir vulnerabilitats. A continuació es descriuen les mesures implementades i la raó de cada una.
+</p>
+
+<h3 id="csrf">6.1 Protecció CSRF (Cross-Site Request Forgery)</h3>
+<p>
+Un atac CSRF consisteix a enganyar un usuari autenticat perquè el seu navegador enviï una petició POST a l'aplicació sense que ell ho sàpiga (per exemple, visitant una pàgina web maliciosa que conté un formulari ocult apuntant al nostre servidor).
+</p>
+<p><strong>Solució implementada:</strong> token sincronitzat per sessió.</p>
+<ol>
+  <li>En cada sessió es genera un token aleatori de 64 caràcters hexadecimals: <code>bin2hex(random_bytes(32))</code>.</li>
+  <li>Tots els formularis POST inclouen el token en un camp ocult: <code>&lt;input type="hidden" name="csrf_token" value="..."&gt;</code>.</li>
+  <li>Tots els handlers POST criden <code>Auth::csrfCheck()</code>, que compara el token rebut amb el de la sessió usant <code>hash_equals()</code> (comparació en temps constant per evitar <em>timing attacks</em>). Si no coincideix, retorna HTTP 403.</li>
+</ol>
+<pre>
+<span class="comment">// En Auth.php</span>
+<span class="kw">public static function</span> <span class="fn">csrfCheck</span>(): <span class="kw">void</span> {
+    $token = trim($_POST[<span class="str">'csrf_token'</span>] ?? <span class="str">''</span>);
+    <span class="kw">if</span> (empty($token) || !hash_equals($_SESSION[<span class="str">'csrf_token'</span>] ?? <span class="str">''</span>, $token)) {
+        http_response_code(403);
+        <span class="kw">die</span>(<span class="str">'Petició no vàlida.'</span>);
+    }
+}
+</pre>
+<p>
+Afecta <strong>18 fitxers</strong> amb formularis POST, automatitzat amb un script Python que insereix el camp CSRF i la crida al check de forma consistent en tots ells.
+</p>
+
+<h3 id="sessio">6.2 Seguretat de sessió</h3>
+<p>Diverses millores a la configuració de sessions PHP:</p>
+<table>
+  <tr><th>Paràmetre</th><th>Valor</th><th>Efecte</th></tr>
+  <tr><td><code>cookie_httponly</code></td><td>1</td><td>La cookie no és accessible des de JavaScript → protecció XSS</td></tr>
+  <tr><td><code>use_strict_mode</code></td><td>1</td><td>No accepta IDs de sessió externs → prevenció de session fixation</td></tr>
+  <tr><td><code>cookie_samesite</code></td><td>Strict</td><td>La cookie no s'envia en peticions cross-site → capa addicional anti-CSRF</td></tr>
+  <tr><td><code>gc_maxlifetime</code></td><td>7200</td><td>La sessió expira als 2h d'inactivitat al servidor</td></tr>
+</table>
+<p>
+A més, <code>Auth::requireLogin()</code> comprova si han passat més de 2 hores des de l'última activitat i, si és el cas, destrueix la sessió i redirigeix al login amb un missatge explicatiu.
+</p>
+<p>
+En el login, s'utilitza <code>session_regenerate_id(true)</code> just després de validar les credencials, per evitar atacs de <em>session fixation</em> (on un atacant pot forçar a la víctima a usar un ID de sessió conegut).
+</p>
+
+<h3 id="headers">6.3 Capçaleres HTTP de seguretat</h3>
+<p>S'afegeixen quatre capçaleres de seguretat a totes les pàgines des de <code>layout_top.php</code>:</p>
+<table>
+  <tr><th>Capçalera</th><th>Valor</th><th>Protecció</th></tr>
+  <tr><td><code>X-Frame-Options</code></td><td>SAMEORIGIN</td><td>Evita que la pàgina s'incruste en iframes d'altres dominis → prevenció de clickjacking</td></tr>
+  <tr><td><code>X-Content-Type-Options</code></td><td>nosniff</td><td>El navegador no intenta detectar el tipus MIME → prevenció de MIME sniffing</td></tr>
+  <tr><td><code>Referrer-Policy</code></td><td>strict-origin-when-cross-origin</td><td>Limita la informació de referència enviada a dominis externs</td></tr>
+  <tr><td><code>Permissions-Policy</code></td><td>camera=(), microphone=(), geolocation=()</td><td>Desactiva explícitament l'accés a càmera, micròfon i geolocalització</td></tr>
+</table>
+
+<h3 id="path">6.4 Prevenció de path traversal</h3>
+<p>
+Dos fitxers servien fitxers al navegador a partir d'un paràmetre GET: <code>admin/veure_pdf.php</code> (PDFs) i <code>admin/download.php</code> (CSVs de contrasenyes). Sense validació, un atacant autenticat podria fer:
+</p>
+<pre>
+/admin/veure_pdf.php?f=../../config/config.php
+</pre>
+<p>i llegir les credencials de la base de dades i del correu SMTP.</p>
+<p><strong>Solució:</strong></p>
+<ul>
+  <li><code>basename()</code> elimina qualsevol component de directori del nom de fitxer.</li>
+  <li>Una expressió regular valida que el nom sigui exactament del format esperat (<code>/^[\w\-]+\.pdf$/i</code> i <code>/^[\w\-]+\.csv$/i</code>).</li>
+  <li>Si el fitxer no existeix o el nom no és vàlid, es retorna HTTP 404.</li>
+</ul>
+
+<h3 id="debug">6.5 Mode de depuració en producció</h3>
+<p>
+Durant el desenvolupament, <code>define('DEBUG', true)</code> activava <code>display_errors = 1</code>, cosa que mostrava els missatges d'error de PHP directament al navegador. Un missatge d'error típic inclou la ruta absoluta dels fitxers al servidor, la consulta SQL que ha fallat, i a vegades fins i tot valors de variables.
+</p>
+<p>
+Per a producció s'ha canviat a <code>DEBUG = false</code>: els errors es registren al log del servidor (<code>/opt/lampp/logs/php_error_log</code>) però no es mostren mai a l'usuari final.
+</p>
+
+<div class="box box-danger">
+  <strong>Nota sobre les credencials a config.php</strong>
+  El fitxer <code>config/config.php</code> conté la contrasenya de la base de dades i les credencials SMTP. Està exclòs del repositori Git mitjançant <code>.gitignore</code> per evitar que s'exposi públicament a GitHub. Existeix un fitxer <code>config.example.php</code> sense credencials reals per guiar la configuració en nous entorns.
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     7. DOCUMENTACIÓ
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="documentacio">7. Documentació generada</h2>
+
+<p>Com a part del projecte s'han creat els documents tècnics següents, tots a la carpeta <code>docs/</code>:</p>
+
+<table>
+  <tr><th>Document</th><th>Format</th><th>Destinatari</th><th>Contingut</th></tr>
+  <tr>
+    <td><code>guia_desplegament.html</code></td>
+    <td>HTML</td>
+    <td>Tècnic TIC</td>
+    <td>Instal·lació de XAMPP, clonació del repositori, configuració de la BD, systemd per inici automàtic, còpies de seguretat, troubleshooting</td>
+  </tr>
+  <tr>
+    <td><code>manual_installacio.html</code></td>
+    <td>HTML</td>
+    <td>Tècnic TIC</td>
+    <td>Instal·lació pas a pas, estructura de carpetes, configuració de <code>config.php</code>, permisos, verificació</td>
+  </tr>
+  <tr>
+    <td><code>manual_professor.html</code></td>
+    <td>HTML</td>
+    <td>Professors</td>
+    <td>Manual d'ús: login, assignar lots, afegir optatives, registrar devolucions, incidències, reenviar correus, FAQ</td>
+  </tr>
+  <tr>
+    <td><code>diagrama_er.dbml</code></td>
+    <td>DBML</td>
+    <td>Tècnic / Documentació</td>
+    <td>Diagrama entitat-relació complet de les 15 taules, per visualitzar a <a href="https://dbdiagram.io">dbdiagram.io</a></td>
+  </tr>
+  <tr>
+    <td><code>schema.sql</code></td>
+    <td>SQL</td>
+    <td>Tècnic TIC</td>
+    <td>Esquema complet de la BD amb totes les taules, índexs, claus foranes i un usuari admin per defecte</td>
+  </tr>
+  <tr>
+    <td><code>memoria_projecte.html</code></td>
+    <td>HTML</td>
+    <td>Avaluació</td>
+    <td>Aquest document</td>
+  </tr>
+</table>
+
+
+<!-- ═══════════════════════════════════════════════
+     8. CONCLUSIONS
+═══════════════════════════════════════════════ -->
+<h2 class="seccio" id="conclusions">8. Conclusions i millores futures</h2>
+
+<h3>Conclusions</h3>
+<p>
+L'aplicació Banc de Llibres cobreix totes les necessitats identificades al plec de requisits del centre: gestió de préstecs, devolucions, incidències, generació de documents PDF, notificacions per correu i control d'accés per rols. S'ha posat especial èmfasi en la <strong>seguretat</strong> (CSRF, control d'accés per als professors) i en la <strong>senzillesa</strong> del codi (un fitxer per pàgina, sense dependències externes innecessàries).
+</p>
+<p>
+El projecte ha permès aplicar de forma pràctica coneixements de PHP, SQL, HTML/CSS, seguretat web i gestió de projectes amb Git.
+</p>
+
+<h3>Millores futures prioritzades</h3>
+<table>
+  <tr><th>Prioritat</th><th>Millora</th><th>Descripció</th></tr>
+  <tr>
+    <td><span class="badge badge-red">P1</span></td>
+    <td>Impressió d'etiquetes</td>
+    <td>Generar fulls d'etiquetes de codis de barres per enganxar als exemplars físics</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-red">P2</span></td>
+    <td>Cercador global</td>
+    <td>Buscar alumnes, exemplars o préstecs des de qualsevol pàgina amb un sol camp de cerca</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-org">P3</span></td>
+    <td>Exportació a Excel</td>
+    <td>Exportar el llistat de préstecs o incidències a CSV/Excel per a la coordinació pedagògica</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-org">P4</span></td>
+    <td>HTTPS</td>
+    <td>Configurar un certificat TLS (Let's Encrypt o autosignat) per xifrar la comunicació. Activar <code>cookie_secure</code> una vegada disponible</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-blue">P5</span></td>
+    <td>Rate limiting al login</td>
+    <td>Bloquejar temporalment IPs que fan massa intents de login fallits (prevenció de força bruta)</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-blue">P6</span></td>
+    <td>2FA opcional</td>
+    <td>Autenticació de dos factors per als comptes d'administrador</td>
+  </tr>
+</table>
+
+<footer>
+  Banc de Llibres · IES PORÇONS · Memòria tècnica · Oscar Bravo Villada · 2025/2026
+</footer>
+
+</body>
+</html>
