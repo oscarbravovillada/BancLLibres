@@ -114,20 +114,27 @@ sudo cp -r /ruta/al/zip/descomprimit/* /opt/lampp/htdocs/BancLLibres/
 <p>L'estructura de carpetes ha de quedar així:</p>
 <pre>
 /opt/lampp/htdocs/BancLLibres/
+├── alumnes/            ← fitxa.php, llista.php, nou.php, importar.php
+├── classes/            ← classes.php, importar.php
+├── exemplars/          ← exemplars.php, nou.php
+├── incidencies/        ← index.php
+├── llibres/            ← llibres.php, nou.php, importar.php
+├── materies/           ← materies.php, importar.php
+├── prestecs/           ← index.php, prestecs.php, assignar_lot.php, ...
+├── professors/         ← importar.php
+├── admin/              ← veure_pdf.php, download.php, ...
 ├── config/
 │   └── config.php          ← a crear al pas 5
 ├── database/
 │   └── schema.sql
 ├── docs/
-├── public/
-│   └── index.php
 ├── src/
-│   ├── controllers/
-│   ├── helpers/
-│   └── views/
+│   ├── helpers/            ← Auth.php, Database.php, Codis.php
+│   └── views/              ← layout_top.php, layout_bottom.php (layout compartit)
 ├── uploads/
 │   └── albarans/           ← a crear al pas 6
-└── vendor/
+├── vendor/
+└── index.php, login.php, logout.php, usuaris.php
 </pre>
 
 <h2 id="bd">4. Crear la base de dades</h2>
@@ -136,16 +143,16 @@ sudo cp -r /ruta/al/zip/descomprimit/* /opt/lampp/htdocs/BancLLibres/
 sudo /opt/lampp/bin/mysql -u root
 
 # Dins la consola MySQL:
-CREATE DATABASE banclLibres CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'banclLibres'@'localhost' IDENTIFIED BY 'CANVIA_AQUEST_PASSWORD';
-GRANT ALL PRIVILEGES ON banclLibres.* TO 'banclLibres'@'localhost';
+CREATE DATABASE banc_llibres CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'banc_user'@'localhost' IDENTIFIED BY 'CANVIA_AQUEST_PASSWORD';
+GRANT ALL PRIVILEGES ON banc_llibres.* TO 'banc_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 </pre>
 
 <p>Ara importa l'esquema:</p>
 <pre>
-sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres \
+sudo /opt/lampp/bin/mysql -u banc_user -p banc_llibres \
   &lt; /opt/lampp/htdocs/BancLLibres/database/schema.sql
 </pre>
 
@@ -164,10 +171,10 @@ sudo nano /opt/lampp/htdocs/BancLLibres/config/config.php
 <h3>5.2 Valors a configurar</h3>
 <table>
   <tr><th>Constant</th><th>Descripció</th><th>Exemple</th></tr>
-  <tr><td><code>BASE_URL</code></td><td>URL base de l'aplicació (sense barra final)</td><td><code>http://localhost/BancLLibres/public</code></td></tr>
+  <tr><td><code>BASE_URL</code></td><td>URL base de l'aplicació (sense barra final)</td><td><code>http://localhost/BancLLibres</code></td></tr>
   <tr><td><code>DB_HOST</code></td><td>Host de la base de dades</td><td><code>localhost</code></td></tr>
-  <tr><td><code>DB_NAME</code></td><td>Nom de la base de dades</td><td><code>banclLibres</code></td></tr>
-  <tr><td><code>DB_USER</code></td><td>Usuari MySQL</td><td><code>banclLibres</code></td></tr>
+  <tr><td><code>DB_NAME</code></td><td>Nom de la base de dades</td><td><code>banc_llibres</code></td></tr>
+  <tr><td><code>DB_USER</code></td><td>Usuari MySQL</td><td><code>banc_user</code></td></tr>
   <tr><td><code>DB_PASS</code></td><td>Contrasenya MySQL</td><td><code>CANVIA_AQUEST_PASSWORD</code></td></tr>
   <tr><td><code>MAIL_HOST</code></td><td>Servidor SMTP</td><td><code>smtp.office365.com</code></td></tr>
   <tr><td><code>MAIL_PORT</code></td><td>Port SMTP</td><td><code>587</code></td></tr>
@@ -198,7 +205,7 @@ sudo chmod 777 /opt/lampp/htdocs/BancLLibres/uploads/albarans
 
 <h2 id="verificar">7. Verificar la instal·lació</h2>
 <ol>
-  <li>Obre <code>http://localhost/BancLLibres/public/</code> al navegador.</li>
+  <li>Obre <code>http://localhost/BancLLibres/</code> al navegador.</li>
   <li>Ha d'aparèixer el formulari de login de BancLLibres.</li>
   <li>Inicia sessió amb <strong>admin</strong> / <strong>Admin1234!</strong>.</li>
   <li>Comprova que el panell mostra els menús i les seccions correctament.</li>

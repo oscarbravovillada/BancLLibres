@@ -135,10 +135,10 @@ nano /opt/lampp/htdocs/BancLLibres/config/config.php
 <p>Paràmetres a ajustar:</p>
 <table>
   <tr><th>Constant</th><th>Valor d'exemple</th><th>Descripció</th></tr>
-  <tr><td>BASE_URL</td><td><code>http://localhost/BancLLibres/public</code></td><td>URL base de l'aplicació</td></tr>
+  <tr><td>BASE_URL</td><td><code>http://localhost/BancLLibres</code></td><td>URL base de l'aplicació</td></tr>
   <tr><td>DB_HOST</td><td><code>localhost</code></td><td>Host MySQL</td></tr>
-  <tr><td>DB_NAME</td><td><code>banclLibres</code></td><td>Nom de la BD</td></tr>
-  <tr><td>DB_USER</td><td><code>banclLibres</code></td><td>Usuari MySQL</td></tr>
+  <tr><td>DB_NAME</td><td><code>banc_llibres</code></td><td>Nom de la BD</td></tr>
+  <tr><td>DB_USER</td><td><code>banc_user</code></td><td>Usuari MySQL</td></tr>
   <tr><td>DB_PASS</td><td><code>la_teva_contrasenya</code></td><td>Password MySQL</td></tr>
   <tr><td>MAIL_HOST</td><td><code>smtp.office365.com</code></td><td>Servidor SMTP</td></tr>
   <tr><td>MAIL_USER</td><td><code>biblioteca@iesporcons.edu</code></td><td>Compte correu</td></tr>
@@ -153,7 +153,7 @@ nano /opt/lampp/htdocs/BancLLibres/config/config.php
 
 <h2>6. Verificar que funciona</h2>
 <ol>
-  <li>Obre el navegador i accedeix a <code>http://localhost/BancLLibres/public/</code></li>
+  <li>Obre el navegador i accedeix a <code>http://localhost/BancLLibres/</code></li>
   <li>Hauries de veure la pàgina de login.</li>
   <li>Inicia sessió amb <strong>admin</strong> / <strong>Admin1234!</strong></li>
   <li>Comprova que el menú mostra: Alumnes, Préstecs, Llibres, Incidències, Historial, Usuaris.</li>
@@ -166,7 +166,7 @@ cd /opt/lampp/htdocs/BancLLibres
 git pull origin main
 
 # Si hi ha canvis d'esquema (schema_vX.sql):
-sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres &lt; database/schema_vX.sql
+sudo /opt/lampp/bin/mysql -u banc_user -p banc_llibres &lt; database/schema_vX.sql
 </pre>
 
 <h2>8. Còpies de seguretat</h2>
@@ -176,14 +176,14 @@ sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres &lt; database/schema_vX.
 sudo crontab -e
 
 # Afegir línia per backup a les 02:00h cada dia:
-0 2 * * * /opt/lampp/bin/mysqldump -u banclLibres -p'la_teva_contrasenya' banclLibres \
-  | gzip > /var/backups/banclLibres_$(date +\%Y\%m\%d).sql.gz
+0 2 * * * /opt/lampp/bin/mysqldump -u banc_user -p'la_teva_contrasenya' banc_llibres \
+  | gzip > /var/backups/banc_llibres_$(date +\%Y\%m\%d).sql.gz
 </pre>
 
 <h3>8.2 Retenir 30 dies</h3>
 <pre>
 # Afegir al crontab (neteja els backups de més de 30 dies):
-0 3 * * * find /var/backups/ -name 'banclLibres_*.sql.gz' -mtime +30 -delete
+0 3 * * * find /var/backups/ -name 'banc_llibres_*.sql.gz' -mtime +30 -delete
 </pre>
 
 <h2>9. Solució de problemes habituals</h2>
