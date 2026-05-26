@@ -10,7 +10,7 @@ $paginaActiva = 'inici';
 
 // ── Salutació i data ──────────────────────────────────────────
 $hora = (int)date('G');
-$salutacio = $hora < 12 ? 'Bon dia' : ($hora < 20 ? 'Bona tarda' : 'Bona nit');
+$salutacio = $hora < 12 ? 'Bon dia' : ($hora < 20 ? 'Bona vesprada' : 'Bona nit');
 $diesCa  = ['diumenge','dilluns','dimarts','dimecres','dijous','divendres','dissabte'];
 $mesosCa = ['','gener','febrer','març','abril','maig','juny','juliol','agost',
             'setembre','octubre','novembre','desembre'];
