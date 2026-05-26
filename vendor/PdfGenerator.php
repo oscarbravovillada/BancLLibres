@@ -86,6 +86,16 @@ class PdfGenerator {
             $pdf->Ln(6);
         }
 
+        if (!empty($d['pendents'])) {
+            self::titolSeccio($pdf, 'Exemplars pendents de retorn', [180, 100, 0]);
+            self::capTaulaPendents($pdf);
+            $fila = 0;
+            foreach ($d['pendents'] as $ex) {
+                self::filaTaulaPendents($pdf, $ex, $fila++);
+            }
+            $pdf->Ln(6);
+        }
+
         self::notaConformitat($pdf, 'devolucio');
         self::zonaFirmes($pdf, $d['responsable'] ?? '');
 
@@ -404,6 +414,31 @@ class PdfGenerator {
         $pdf->SetFont('Helvetica', '', 8);
         $pdf->Cell(100, 6, self::u(self::truncar($ex['titol'], 60)), 1, 0, 'L', $fill);
         $pdf->Cell(0,   6, self::u($ex['motiu']), 1, 1, 'C', $fill);
+    }
+
+    // ---------------------------------------------------------------
+    // Capçalera + fila taula pendents de retorn
+    // ---------------------------------------------------------------
+    private static function capTaulaPendents(FPDF $pdf): void {
+        [$r,$g,$b] = [180, 100, 0];
+        $pdf->SetFillColor($r,$g,$b);
+        [$r,$g,$b] = self::C_BLANC;
+        $pdf->SetTextColor($r,$g,$b);
+        $pdf->SetFont('Helvetica', 'B', 8);
+        $pdf->Cell(45, 7, self::u('Codi'), 1, 0, 'C', true);
+        $pdf->Cell(135, 7, self::u('Títol'), 1, 1, 'C', true);
+        [$r,$g,$b] = self::C_TEXT;
+        $pdf->SetTextColor($r,$g,$b);
+    }
+
+    private static function filaTaulaPendents(FPDF $pdf, array $ex, int $fila): void {
+        $fill = ($fila % 2 === 0);
+        [$r,$g,$b] = $fill ? [255, 243, 224] : self::C_BLANC;
+        $pdf->SetFillColor($r,$g,$b);
+        $pdf->SetFont('Helvetica', 'B', 8);
+        $pdf->Cell(45, 6, self::u($ex['codi']), 1, 0, 'L', $fill);
+        $pdf->SetFont('Helvetica', '', 8);
+        $pdf->Cell(135, 6, self::u(self::truncar($ex['titol'], 80)), 1, 1, 'L', $fill);
     }
 
     // ---------------------------------------------------------------

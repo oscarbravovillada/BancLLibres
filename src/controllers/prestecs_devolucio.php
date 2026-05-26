@@ -42,10 +42,33 @@ $exemplars = Database::fetchAll(
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $retornats = [];
+    $retornats    = [];
     $no_retornats = [];
+    $pendents     = [];
 
     foreach ($_POST['estat'] as $id => $estat) {
+
+        if ($estat === 'pendent') {
+
+            Database::execute(
+                "UPDATE prestecs SET estat = 'pendent', estat_prestec = 'pendent'
+                 WHERE exemplar_id = ? AND alumne_id = ? AND estat = 'actiu'",
+                [$id, $alumne_id]
+            );
+
+            $ex_pend = Database::fetchOne(
+                "SELECT e.codi, l.titol FROM exemplars e
+                 JOIN llibres l ON e.llibre_id = l.id WHERE e.id = ?",
+                [$id]
+            );
+
+            Database::insert(
+                "INSERT INTO historial (alumne_id, exemplar_id, accio, detalls, usuari_id) VALUES (?,?,?,?,?)",
+                [$alumne_id, $id, 'pendent', "Pendent de retorn: {$ex_pend['codi']} — {$ex_pend['titol']}", Auth::id()]
+            );
+
+            $pendents[] = ['codi' => $ex_pend['codi'], 'titol' => $ex_pend['titol']];
+        }
 
         if ($estat === 'retornat') {
 
@@ -137,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'tutor'        => $alumne['tutor_nom'],
         'retornats'    => $retornats,
         'no_retornats' => $no_retornats,
+        'pendents'     => $pendents,
         'responsable'  => Auth::nom(),
     ];
 

@@ -21,7 +21,9 @@
 
       <p class="text-muted mb-4">
         Indica l'estat de cada exemplar en el moment de la devolució.
-        Els exemplars marcats com a <strong>Retornat</strong> quedaran alliberats.
+        <strong>Retornat</strong>: alliberat del préstec. &nbsp;
+        <strong>Perdut</strong>: es genera incidència automàtica. &nbsp;
+        <strong>Pendent de retorn</strong>: queda assignat a l'alumne/a per a una devolució futura.
       </p>
 
       <form method="POST">
@@ -45,7 +47,7 @@
                 <td><span class="badge badge-estat-<?= $ex['estat'] ?>"><?= ucfirst($ex['estat']) ?></span></td>
                 <td style="min-width:180px">
                   <select name="estat[<?= $ex['id'] ?>]" class="form-select form-select-sm">
-                    <option value="actiu">— Deixar actiu —</option>
+                    <option value="pendent">Pendent de retorn</option>
                     <option value="retornat">Retornat</option>
                     <option value="perdut">Perdut</option>
                   </select>
