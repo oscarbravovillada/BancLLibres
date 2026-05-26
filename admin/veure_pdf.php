@@ -4,10 +4,11 @@ require_once __DIR__ . '/../src/helpers/Auth.php';
 
 Auth::requireLogin();
 
-$fitxer = $_GET['f'] ?? '';
+$fitxer = basename($_GET['f'] ?? '');
 $ruta = PDF_DIR . $fitxer;
 
-if (!$fitxer || !file_exists($ruta)) {
+if (!$fitxer || !preg_match('/^[\w\-]+\.pdf$/i', $fitxer) || !file_exists($ruta)) {
+    http_response_code(404);
     die("PDF no trobat");
 }
 
