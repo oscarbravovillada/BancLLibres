@@ -100,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'exemplar_codi'  => $ex_info['codi'],
                 'exemplar_titol' => $ex_info['titol'],
                 'materia'        => $ex_info['materia'],
+                'responsable'    => Auth::nom(),
             ]);
 
             $albaraId = Database::insert(

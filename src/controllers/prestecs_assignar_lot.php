@@ -139,12 +139,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     /* 3.4 Generar albarà PDF */
     $dades_pdf = [
-        'alumne_id' => $alumne_id,
-        'alumne'    => $alumne['nom'] . ' ' . $alumne['cognoms'],
-        'classe'    => $alumne['classe_nom'],
-        'tutor'     => $alumne['tutor_nom'] ?? '',
-        'lot_codi'  => $codi_lot,
-        'exemplars' => $exemplars_prestats,
+        'alumne_id'   => $alumne_id,
+        'alumne'      => $alumne['nom'] . ' ' . $alumne['cognoms'],
+        'classe'      => $alumne['classe_nom'],
+        'tutor'       => $alumne['tutor_nom'] ?? '',
+        'lot_codi'    => $codi_lot,
+        'exemplars'   => $exemplars_prestats,
+        'responsable' => Auth::nom(),
     ];
 
     $fitxer_pdf = PdfGenerator::albaraPrestec($dades_pdf);

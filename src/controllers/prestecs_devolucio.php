@@ -131,12 +131,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        GENERAR PDF DE DEVOLUCIÓ
        ============================ */
     $dades_pdf = [
-        'alumne_id'   => $alumne_id,
-        'alumne'      => $alumne['nom'] . ' ' . $alumne['cognoms'],
-        'classe'      => $alumne['classe_nom'],
-        'tutor'       => $alumne['tutor_nom'],
-        'retornats'   => $retornats,
-        'no_retornats'=> $no_retornats
+        'alumne_id'    => $alumne_id,
+        'alumne'       => $alumne['nom'] . ' ' . $alumne['cognoms'],
+        'classe'       => $alumne['classe_nom'],
+        'tutor'        => $alumne['tutor_nom'],
+        'retornats'    => $retornats,
+        'no_retornats' => $no_retornats,
+        'responsable'  => Auth::nom(),
     ];
 
     $fitxer_pdf = PdfGenerator::albaraDevolucio($dades_pdf);

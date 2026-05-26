@@ -52,7 +52,7 @@ class PdfGenerator {
 
         $pdf->Ln(10);
         self::notaConformitat($pdf, 'prestec');
-        self::zonaFirmes($pdf);
+        self::zonaFirmes($pdf, $d['responsable'] ?? '');
 
         return self::desar($pdf, 'prestec', $d['alumne_id']);
     }
@@ -87,7 +87,7 @@ class PdfGenerator {
         }
 
         self::notaConformitat($pdf, 'devolucio');
-        self::zonaFirmes($pdf);
+        self::zonaFirmes($pdf, $d['responsable'] ?? '');
 
         return self::desar($pdf, 'devolucio', $d['alumne_id']);
     }
@@ -147,7 +147,7 @@ class PdfGenerator {
         $pdf->SetTextColor($r,$g,$b);
         $pdf->Ln(6);
 
-        self::zonaFirmes($pdf);
+        self::zonaFirmes($pdf, $d['responsable'] ?? '');
 
         return self::desar($pdf, 'incidencia', $d['alumne_id']);
     }
@@ -188,7 +188,7 @@ class PdfGenerator {
         // Centre
         $pdf->SetFont('Helvetica', 'I', 8);
         $pdf->SetXY(15, 13);
-        $pdf->Cell(100, 5, self::u('Institut Tecnologic'), 0, 0, 'L');
+        $pdf->Cell(100, 5, self::u('IES PORÇONS'), 0, 0, 'L');
 
         $pdf->SetY(26);
 
@@ -250,11 +250,11 @@ class PdfGenerator {
 
         $pdf->SetFont('Helvetica', 'B', 9);
         $pdf->SetXY(48, $y + 3);
-        $pdf->Cell(22, 5, self::u('Nom i cognoms:'), 0, 0);
+        $pdf->Cell(34, 5, self::u('Nom i cognoms:'), 0, 0);
         $pdf->SetFont('Helvetica', '', 9);
-        $pdf->Cell(80, 5, self::u($alumne), 0, 0);
+        $pdf->Cell(68, 5, self::u($alumne), 0, 0);
         $pdf->SetFont('Helvetica', 'B', 9);
-        $pdf->Cell(12, 5, self::u('Classe:'), 0, 0);
+        $pdf->Cell(14, 5, self::u('Classe:'), 0, 0);
         $pdf->SetFont('Helvetica', '', 9);
         $pdf->Cell(0, 5, self::u($classe), 0, 1);
 
@@ -328,17 +328,17 @@ class PdfGenerator {
         $pdf->SetFont('Helvetica', 'B', 8);
 
         if ($ambEstatFinal) {
-            $pdf->Cell(38, 7, self::u('Codi'), 1, 0, 'C', true);
-            $pdf->Cell(68, 7, self::u('Títol'), 1, 0, 'C', true);
-            $pdf->Cell(26, 7, self::u('Estat inicial'), 1, 0, 'C', true);
-            $pdf->Cell(26, 7, self::u('Estat final'), 1, 0, 'C', true);
-            $pdf->Cell(0,  7, self::u('Observacions'), 1, 1, 'C', true);
+            $pdf->Cell(32, 7, self::u('Codi'), 1, 0, 'C', true);
+            $pdf->Cell(60, 7, self::u('Títol'), 1, 0, 'C', true);
+            $pdf->Cell(24, 7, self::u('Estat inicial'), 1, 0, 'C', true);
+            $pdf->Cell(24, 7, self::u('Estat final'), 1, 0, 'C', true);
+            $pdf->Cell(40, 7, self::u('Observacions'), 1, 1, 'C', true);
         } else {
-            $pdf->Cell(38, 7, self::u('Codi'), 1, 0, 'C', true);
-            $pdf->Cell(68, 7, self::u('Títol'), 1, 0, 'C', true);
-            $pdf->Cell(26, 7, self::u('Matèria'), 1, 0, 'C', true);
-            $pdf->Cell(26, 7, self::u('Estat'), 1, 0, 'C', true);
-            $pdf->Cell(0,  7, self::u('Desperfectes prevision'), 1, 1, 'C', true);
+            $pdf->Cell(32, 7, self::u('Codi'), 1, 0, 'C', true);
+            $pdf->Cell(60, 7, self::u('Títol'), 1, 0, 'C', true);
+            $pdf->Cell(24, 7, self::u('Matèria'), 1, 0, 'C', true);
+            $pdf->Cell(24, 7, self::u('Estat'), 1, 0, 'C', true);
+            $pdf->Cell(40, 7, self::u('Desperfectes previs'), 1, 1, 'C', true);
         }
 
         [$r,$g,$b] = self::C_TEXT;
@@ -356,12 +356,12 @@ class PdfGenerator {
         $pdf->SetFillColor($r,$g,$b);
 
         $pdf->SetFont('Helvetica', 'B', 8);
-        $pdf->Cell(38, 6, self::u($codi), 1, 0, 'L', $fill);
+        $pdf->Cell(32, 6, self::u($codi), 1, 0, 'L', $fill);
         $pdf->SetFont('Helvetica', '', 8);
-        $pdf->Cell(68, 6, self::u(self::truncar($titol, 42)), 1, 0, 'L', $fill);
-        $pdf->Cell(26, 6, self::u($materia), 1, 0, 'C', $fill);
-        $pdf->Cell(26, 6, self::u($estat), 1, 0, 'C', $fill);
-        $pdf->Cell(0,  6, self::u(self::truncar($desperfectes, 22)), 1, 1, 'L', $fill);
+        $pdf->Cell(60, 6, self::u(self::truncar($titol, 38)), 1, 0, 'L', $fill);
+        $pdf->Cell(24, 6, self::u($materia), 1, 0, 'C', $fill);
+        $pdf->Cell(24, 6, self::u($estat), 1, 0, 'C', $fill);
+        $pdf->Cell(40, 6, self::u(self::truncar($desperfectes, 26)), 1, 1, 'L', $fill);
     }
 
     // ---------------------------------------------------------------
@@ -432,7 +432,7 @@ class PdfGenerator {
     // ---------------------------------------------------------------
     // Zona de firmes (dos quadres costat a costat)
     // ---------------------------------------------------------------
-    private static function zonaFirmes(FPDF $pdf): void {
+    private static function zonaFirmes(FPDF $pdf, string $responsable = ''): void {
         // Si queda poc espai, nova pàgina
         if ($pdf->GetY() > 240) {
             $pdf->AddPage();
@@ -473,9 +473,11 @@ class PdfGenerator {
         $pdf->SetTextColor($r,$g,$b);
         $pdf->SetFont('Helvetica', '', 8);
 
-        $pdf->SetXY(18, $y + 12);
-        $pdf->Cell(30, 4, self::u('Nom i cognoms:'), 0, 1);
-        $pdf->SetXY(18, $y + 16);
+        $pdf->SetXY(18, $y + 10);
+        $pdf->SetFont('Helvetica', 'B', 8);
+        $pdf->Cell(30, 4, self::u('Nom i cognoms:'), 0, 0);
+        $pdf->SetFont('Helvetica', '', 8);
+        $pdf->Cell(0, 4, self::u($responsable), 0, 1);
         [$r,$g,$b] = self::C_GRIS_LINIA;
         $pdf->SetDrawColor($r,$g,$b);
         $pdf->Line(18, $y + 22, 96, $y + 22);

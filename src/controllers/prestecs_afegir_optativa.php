@@ -69,12 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $fitxer_pdf = PdfGenerator::albaraPrestec([
-            'alumne_id' => $alumne_id,
-            'alumne'    => $alumne['nom'] . ' ' . $alumne['cognoms'],
-            'classe'    => $alumne['classe_nom'],
-            'tutor'     => $alumne['tutor_nom'] ?? '',
-            'lot_codi'  => '',
-            'exemplars' => [$ex],
+            'alumne_id'   => $alumne_id,
+            'alumne'      => $alumne['nom'] . ' ' . $alumne['cognoms'],
+            'classe'      => $alumne['classe_nom'],
+            'tutor'       => $alumne['tutor_nom'] ?? '',
+            'lot_codi'    => '',
+            'exemplars'   => [$ex],
+            'responsable' => Auth::nom(),
         ]);
 
         $albaraId = Database::insert(
