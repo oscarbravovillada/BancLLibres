@@ -16,6 +16,7 @@ $filtreDisp   = isset($_GET['disponible']) ? (int)$_GET['disponible'] : -1;
 
 // ACCIONS POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $accio = $_POST['accio'] ?? '';
 
     // CREAR EXEMPLARS
@@ -217,6 +218,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
 <div class="modal fade" id="modalExemplar" tabindex="-1">
   <div class="modal-dialog">
     <form method="post" class="modal-content">
+  <?= Auth::csrfField() ?>
       <div class="modal-header card-header-bl" style="border-radius:0">
         <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Nou exemplar</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -269,6 +271,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
 <div class="modal fade" id="modalEditExemplar" tabindex="-1">
   <div class="modal-dialog">
     <form method="post" class="modal-content">
+  <?= Auth::csrfField() ?>
       <div class="modal-header card-header-bl" style="border-radius:0">
         <h5 class="modal-title"><i class="bi bi-pencil"></i> Editar exemplar</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>

@@ -75,6 +75,7 @@ foreach ($materies as $m) {
    3) FORMULARI ENVIAT
    ============================ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
 
     $exemplarsSeleccionats = array_filter($_POST['exemplar'] ?? [], fn($v) => $v !== '' && $v > 0);
 
@@ -174,6 +175,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
     <p class="text-muted mb-4">Classe: <strong><?= htmlspecialchars($alumne['classe_nom']) ?></strong></p>
 
     <form method="POST">
+  <?= Auth::csrfField() ?>
 
       <?php foreach ($materies as $m): ?>
         <div class="mb-3">

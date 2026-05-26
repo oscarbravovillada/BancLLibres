@@ -10,6 +10,7 @@ $paginaActiva = 'incidencies';
 
 /* Marcar com a pagat */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['marcar_pagat'])) {
+    Auth::csrfCheck();
     $inc_id = (int)($_POST['incidencia_id'] ?? 0);
     if ($inc_id) {
         Database::execute(
@@ -118,6 +119,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
           <td>
             <?php if ($i['ha_de_pagar'] && !$i['pagat']): ?>
             <form method="POST" style="display:inline">
+  <?= Auth::csrfField() ?>
               <input type="hidden" name="incidencia_id" value="<?= $i['id'] ?>">
               <button type="submit" name="marcar_pagat" class="btn btn-sm btn-success"
                       onclick="return confirm('Marcar com a pagat?')">

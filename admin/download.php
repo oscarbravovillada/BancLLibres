@@ -11,7 +11,8 @@ if (Auth::rol() !== 'admin') {
 $file = basename($_GET['file'] ?? '');
 $path = __DIR__ . '/../private/exports/' . $file;
 
-if (!file_exists($path)) {
+if (!$file || !preg_match('/^[\w\-]+\.csv$/i', $file) || !file_exists($path)) {
+    http_response_code(404);
     die("Fitxer no trobat");
 }
 

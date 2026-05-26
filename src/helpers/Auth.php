@@ -38,6 +38,12 @@ class Auth {
             header('Location: ' . BASE_URL . '/login.php');
             exit;
         }
+        if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > 7200) {
+            self::logout();
+            header('Location: ' . BASE_URL . '/login.php?timeout=1');
+            exit;
+        }
+        $_SESSION['last_activity'] = time();
     }
 
     public static function requireAdmin(): void {
@@ -58,6 +64,27 @@ class Auth {
 
     public static function nom(): string {
         return $_SESSION['user_nom'] ?? '';
+    }
+
+    public static function csrfToken(): string {
+        self::start();
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION['csrf_token'];
+    }
+
+    public static function csrfField(): string {
+        return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(self::csrfToken(), ENT_QUOTES) . '">';
+    }
+
+    public static function csrfCheck(): void {
+        self::start();
+        $token = trim($_POST['csrf_token'] ?? '');
+        if (empty($token) || !hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
+            http_response_code(403);
+            die('Petició no vàlida. Torna enrere i reintenta l\'acció.');
+        }
     }
 
     public static function canAccessAlumne(int $alumne_id): bool {

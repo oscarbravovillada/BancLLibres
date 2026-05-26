@@ -14,6 +14,7 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_FILES['xml']) &&
     $_FILES['xml']['error'] === UPLOAD_ERR_OK) {
+    Auth::csrfCheck();
 
     $xmlFile = $_FILES['xml']['tmp_name'];
     $xml = @simplexml_load_file($xmlFile);
@@ -82,6 +83,7 @@ include __DIR__ . '/../src/views/layout_top.php';
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
+  <?= Auth::csrfField() ?>
       <label class="form-label fw-semibold">Fitxer XML</label>
       <input type="file" name="xml" accept=".xml" class="form-control mb-3" required>
 

@@ -37,6 +37,7 @@ $classes = Database::fetchAll(
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $nom           = trim($_POST['nom']           ?? '');
     $cognoms       = trim($_POST['cognoms']       ?? '');
     $email_familia = trim($_POST['email_familia'] ?? '');
@@ -78,6 +79,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
     <?php endif; ?>
 
     <form method="POST">
+  <?= Auth::csrfField() ?>
       <div class="mb-3">
         <label class="form-label">Nom *</label>
         <input type="text" name="nom" class="form-control" required

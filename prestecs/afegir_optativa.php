@@ -41,6 +41,7 @@ $exemplars = Database::fetchAll(
 );
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $exemplar_id = (int)($_POST['exemplar_id'] ?? 0);
 
     if (!$exemplar_id) {
@@ -117,6 +118,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
     <?php else: ?>
 
       <form method="POST">
+  <?= Auth::csrfField() ?>
         <div class="mb-4">
           <label class="form-label">Selecciona l'exemplar d'optativa</label>
           <select name="exemplar_id" class="form-select" required>

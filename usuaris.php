@@ -13,6 +13,7 @@ $missatge = '';
 $errorMsg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $accio = $_POST['accio'] ?? '';
 
     /* CREAR */
@@ -167,6 +168,7 @@ include __DIR__ . '/src/views/layout_top.php'; ?>
       <div class="card-header-bl"><i class="bi bi-person-plus"></i> Nou usuari</div>
       <div class="card-body">
         <form method="POST">
+  <?= Auth::csrfField() ?>
           <input type="hidden" name="accio" value="crear">
           <div class="mb-3">
             <label class="form-label">Nom *</label>
@@ -215,6 +217,7 @@ include __DIR__ . '/src/views/layout_top.php'; ?>
 
         <!-- Canviar rol -->
         <form method="POST" class="mb-4">
+  <?= Auth::csrfField() ?>
           <input type="hidden" name="accio" value="rol">
           <input type="hidden" name="id" id="gId">
           <label class="form-label fw-semibold">Canviar rol</label>
@@ -229,6 +232,7 @@ include __DIR__ . '/src/views/layout_top.php'; ?>
 
         <!-- Reset contrasenya -->
         <form method="POST" class="mb-4">
+  <?= Auth::csrfField() ?>
           <input type="hidden" name="accio" value="reset_password">
           <input type="hidden" name="id" id="gId2">
           <label class="form-label fw-semibold">Restablir contrasenya</label>
@@ -240,6 +244,7 @@ include __DIR__ . '/src/views/layout_top.php'; ?>
 
         <!-- Activar/desactivar -->
         <form method="POST">
+  <?= Auth::csrfField() ?>
           <input type="hidden" name="accio" value="toggle_actiu">
           <input type="hidden" name="id" id="gId3">
           <button type="submit" id="gToggleBtn" class="btn btn-outline-danger w-100">

@@ -11,6 +11,7 @@ $missatge      = "";
 $errors        = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['xml']) && $_FILES['xml']['error'] === UPLOAD_ERR_OK) {
+    Auth::csrfCheck();
 
     $xmlFile = $_FILES['xml']['tmp_name'];
     $xml     = @simplexml_load_file($xmlFile);
@@ -108,6 +109,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
 <?php endif; ?>
 
 <form method="post" enctype="multipart/form-data" class="mt-4">
+  <?= Auth::csrfField() ?>
   <div class="mb-3">
     <label class="form-label">Fitxer XML de professorat (PROXES / ITACA)</label>
     <input type="file" name="xml" class="form-control" required>

@@ -11,6 +11,7 @@ $missatge = '';
 $errorMsg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     Auth::requireAdmin();
     $accio = $_POST['accio'] ?? '';
 
@@ -250,6 +251,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
               <?php if (Auth::rol() === 'admin'): ?>
               <form method="POST" action="<?= BASE_URL ?>/classes/classes.php" class="m-0"
                     onsubmit="return confirm('Eliminar la classe «<?= htmlspecialchars($c['nom'], ENT_QUOTES) ?>»?')">
+  <?= Auth::csrfField() ?>
                 <input type="hidden" name="accio" value="eliminar">
                 <input type="hidden" name="id" value="<?= $c['id'] ?>">
                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
@@ -284,6 +286,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
 <div class="modal fade" id="modalNovaClasse" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <form method="POST" class="modal-content" id="formNovaClasse">
+  <?= Auth::csrfField() ?>
       <input type="hidden" name="accio" value="nova">
 
       <div class="modal-header card-header-bl" style="border-radius:0">

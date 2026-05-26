@@ -12,6 +12,7 @@ if (Auth::check()) {
 
 $_darkMode = !empty($_SESSION['dark_mode']);
 $error = '';
+if (isset($_GET['timeout'])) $error = 'La sessió ha expirat per inactivitat. Torna a iniciar sessió.';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

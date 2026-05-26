@@ -43,6 +43,7 @@ $errors   = [];
 $missatge = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $exemplar_id = (int)($_POST['exemplar_id'] ?? 0);
     $tipus       = trim($_POST['tipus'] ?? '');
     $descripcio  = trim($_POST['descripcio'] ?? '');
@@ -147,6 +148,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
     <?php else: ?>
 
     <form method="POST">
+  <?= Auth::csrfField() ?>
 
       <div class="mb-3">
         <label class="form-label fw-semibold">Exemplar afectat</label>

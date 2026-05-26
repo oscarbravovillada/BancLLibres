@@ -14,6 +14,7 @@ $llibres = Database::fetchAll(
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $llibre_id = (int)($_POST['llibre_id'] ?? 0);
     $codi      = trim($_POST['codi'] ?? '');
 
@@ -43,6 +44,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
 <?php endif; ?>
 
 <form method="post" class="mt-3">
+  <?= Auth::csrfField() ?>
   <div class="mb-3">
     <label class="form-label">Llibre</label>
     <select name="llibre_id" class="form-select" required>

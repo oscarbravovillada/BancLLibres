@@ -12,6 +12,7 @@ $missatge = '';
 $errorMsg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $accio = $_POST['accio'] ?? '';
 
     /* EDITAR */
@@ -362,6 +363,7 @@ $optativa = array_filter($materies, fn($m) => $m['tipus'] === 'optativa');
               <?php if ($total == 0): ?>
               <form method="POST" class="d-inline"
                     onsubmit="return confirm('Eliminar «<?= htmlspecialchars($l['titol'], ENT_QUOTES) ?>»?')">
+  <?= Auth::csrfField() ?>
                 <input type="hidden" name="accio" value="eliminar">
                 <input type="hidden" name="id" value="<?= $l['id'] ?>">
                 <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
@@ -387,6 +389,7 @@ $optativa = array_filter($materies, fn($m) => $m['tipus'] === 'optativa');
 <div class="modal fade" id="modalEditar" tabindex="-1">
   <div class="modal-dialog">
     <form method="POST" class="modal-content">
+  <?= Auth::csrfField() ?>
       <div class="modal-header card-header-bl" style="border-radius:0">
         <h5 class="modal-title"><i class="bi bi-pencil"></i> Editar llibre</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>

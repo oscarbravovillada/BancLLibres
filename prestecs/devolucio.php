@@ -41,6 +41,7 @@ $exemplars = Database::fetchAll(
 );
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
 
     $retornats    = [];
     $no_retornats = [];
@@ -224,6 +225,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
       </p>
 
       <form method="POST">
+  <?= Auth::csrfField() ?>
         <div class="table-responsive">
           <table class="table table-bl mb-0">
             <thead>

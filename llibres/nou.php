@@ -13,6 +13,7 @@ $cursos   = Database::fetchAll("SELECT id, codi FROM cursos ORDER BY codi");
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    Auth::csrfCheck();
     $titol      = trim($_POST['titol']     ?? '');
     $isbn       = trim($_POST['isbn']      ?? '');
     $editorial  = trim($_POST['editorial'] ?? '');
@@ -52,6 +53,7 @@ include __DIR__ . '/../src/views/layout_top.php'; ?>
     <?php endif; ?>
 
     <form method="POST">
+  <?= Auth::csrfField() ?>
       <div class="mb-3">
         <label class="form-label">Títol *</label>
         <input type="text" name="titol" class="form-control" required
