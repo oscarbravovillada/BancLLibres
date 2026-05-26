@@ -236,7 +236,7 @@ include __DIR__ . '/src/views/layout_top.php';
   </div>
   <div class="stat-pill <?= $stats['pendents_pagament'] > 0 ? 'alert' : '' ?>">
     <i class="bi bi-cash-stack" style="color:#6a1b9a"></i>
-    <span class="pill-num" <?= $stats['pendents_pagament'] > 0 ? 'style="color:#6a1b9a"' : '' ?>><?= $stats['pendents_pagament'] ?></span> pendent pagament
+    <span class="pill-num" <?= $stats['pendents_pagament'] > 0 ? 'style="color:#6a1b9a"' : '' ?>><?= $stats['pendents_pagament'] ?></span> per pagar
   </div>
   <div class="stat-pill">
     <i class="bi bi-people-fill" style="color:#2e7d32"></i>

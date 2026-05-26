@@ -157,6 +157,7 @@
         <li><a href="#correu">Notificacions per correu electrònic</a></li>
         <li><a href="#importar">Importació massiva des de XML</a></li>
         <li><a href="#historial">Historial d'auditoria</a></li>
+        <li><a href="#dashboard">Panell d'inici (dashboard)</a></li>
       </ol>
     </li>
     <li><a href="#refactor">Refactorització: simplificació de fitxers</a></li>
@@ -422,6 +423,40 @@ Cada acció rellevant (préstec, devolució, incidència, enviament de correu) q
 </p>
 
 
+<h3 id="dashboard">4.11 Panell d'inici (dashboard)</h3>
+<p>
+El dashboard és la primera pantalla que veu l'usuari en accedir. S'ha dissenyat amb l'objectiu de reduir la càrrega cognitiva dels professors: en lloc de mostrar dades globals genèriques, mostra directament la informació rellevant per a cada rol.
+</p>
+
+<h4>Elements del nou dashboard</h4>
+<table>
+  <tr><th>Element</th><th>Descripció</th></tr>
+  <tr><td><strong>Bàner de benvinguda</strong></td><td>Salutació personalitzada (<em>Bon dia / Bona vesprada / Bona nit</em>) amb el nom de l'usuari, la data del dia en valencià i el curs escolar. Inclou un indicador del rol (Administrador/a o Professor/a).</td></tr>
+  <tr><td><strong>Píndoles d'estadístiques</strong></td><td>Sis indicadors globals compactes (exemplars totals, en préstec, perduts, incidències, per pagar, alumnes actius) en format horitzontal. Les píndoles de valors crítics &gt; 0 es ressalten en color.</td></tr>
+  <tr><td><strong>Grid de classes</strong></td><td>Cada classe apareix com una targeta compacta amb: nombre d'alumnes, préstecs actius i incidències. El professor veu <em>únicament les seves classes</em> (via <code>professor_classe</code>); l'admin veu totes. Botó directe a la llista d'alumnes de la classe.</td></tr>
+  <tr><td><strong>Accions ràpides</strong></td><td>Panell lateral amb les 4–5 accions més habituals del dia a dia (assignar lot, devolució, incidències, llista préstecs) amb descripció breu de cada una.</td></tr>
+  <tr><td><strong>Activitat recent</strong></td><td>Últims 6 préstecs, filtrats per les classes del professor. L'admin veu activitat global.</td></tr>
+</table>
+
+<div class="box box-why">
+  <strong>Per què una vista diferent per a professors i admins?</strong>
+  Un professor gestiona 1–3 classes i no necessita veure l'estat global del centre per fer la seua feina. Mostrar-li totes les classes amb les dades de tothom només afegeix soroll visual. La segmentació per rol fa que el dashboard siga útil des del primer segon: el professor veu les seues classes directament, sense filtrar.
+</div>
+
+<pre>
+<span class="comment">// Professors: només les seues classes</span>
+$classeStats = Database::<span class="fn">fetchAll</span>(<span class="str">"
+    SELECT c.id, c.nom, ...
+    FROM classes c
+    JOIN professor_classe pc ON pc.classe_id=c.id AND pc.professor_id=?
+    ORDER BY c.nom
+"</span>, [Auth::<span class="fn">id</span>()]);
+
+<span class="comment">// Admins: totes les classes</span>
+$classeStats = Database::<span class="fn">fetchAll</span>(<span class="str">"SELECT c.id, c.nom, ... FROM classes c ORDER BY c.nom"</span>);
+</pre>
+
+
 <!-- ═══════════════════════════════════════════════
      5. REFACTORITZACIÓ
 ═══════════════════════════════════════════════ -->
@@ -603,7 +638,7 @@ Per a producció s'ha canviat a <code>DEBUG = false</code>: els errors es regist
 
 <h3>Conclusions</h3>
 <p>
-L'aplicació Banc de Llibres cobreix totes les necessitats identificades al plec de requisits del centre: gestió de préstecs, devolucions, incidències, generació de documents PDF, notificacions per correu i control d'accés per rols. S'ha posat especial èmfasi en la <strong>seguretat</strong> (CSRF, control d'accés per als professors) i en la <strong>senzillesa</strong> del codi (un fitxer per pàgina, sense dependències externes innecessàries).
+L'aplicació Banc de Llibres cobreix totes les necessitats identificades al plec de requisits del centre: gestió de préstecs, devolucions, incidències, generació de documents PDF, notificacions per correu i control d'accés per rols. S'ha posat especial èmfasi en la <strong>seguretat</strong> (CSRF, control d'accés per als professors, capçaleres HTTP, prevenció de path traversal), en la <strong>senzillesa</strong> del codi (un fitxer per pàgina, sense dependències externes innecessàries) i en la <strong>usabilitat</strong> (dashboard personalitzat per rol, accions ràpides, vista de classes pròpies per als professors).
 </p>
 <p>
 El projecte ha permès aplicar de forma pràctica coneixements de PHP, SQL, HTML/CSS, seguretat web i gestió de projectes amb Git.
