@@ -151,6 +151,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     /* ============================
+       CÀRRECS PENDENTS DE PAGAMENT
+       ============================ */
+    $carrecs = Database::fetchAll(
+        "SELECT i.tipus, i.descripcio, i.import_pagament, i.pagat, i.data_pagament,
+                e.codi AS exemplar_codi, l.titol
+         FROM incidencies i
+         JOIN exemplars e ON i.exemplar_id = e.id
+         JOIN llibres l   ON e.llibre_id = l.id
+         WHERE i.alumne_id = ? AND i.ha_de_pagar = 1
+         ORDER BY i.data_incidencia DESC",
+        [$alumne_id]
+    );
+
+    /* ============================
        GENERAR PDF DE DEVOLUCIÓ
        ============================ */
     $dades_pdf = [
@@ -161,6 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'retornats'    => $retornats,
         'no_retornats' => $no_retornats,
         'pendents'     => $pendents,
+        'carrecs'      => $carrecs,
         'responsable'  => Auth::nom(),
     ];
 

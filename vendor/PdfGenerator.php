@@ -96,6 +96,10 @@ class PdfGenerator {
             $pdf->Ln(6);
         }
 
+        if (!empty($d['carrecs'])) {
+            self::seccioCarrecs($pdf, $d['carrecs']);
+        }
+
         self::notaConformitat($pdf, 'devolucio');
         self::zonaFirmes($pdf, $d['responsable'] ?? '');
 
@@ -439,6 +443,67 @@ class PdfGenerator {
         $pdf->Cell(45, 6, self::u($ex['codi']), 1, 0, 'L', $fill);
         $pdf->SetFont('Helvetica', '', 8);
         $pdf->Cell(135, 6, self::u(self::truncar($ex['titol'], 80)), 1, 1, 'L', $fill);
+    }
+
+    // ---------------------------------------------------------------
+    // Secció de càrrecs de pagament (per a l'albarà de devolució)
+    // ---------------------------------------------------------------
+    private static function seccioCarrecs(FPDF $pdf, array $carrecs): void {
+        self::titolSeccio($pdf, 'Càrrecs i pagaments', self::C_VERMELL);
+
+        // Capçalera taula
+        [$r,$g,$b] = self::C_VERMELL;
+        $pdf->SetFillColor($r,$g,$b);
+        [$r,$g,$b] = self::C_BLANC;
+        $pdf->SetTextColor($r,$g,$b);
+        $pdf->SetFont('Helvetica', 'B', 8);
+        $pdf->Cell(30,  7, self::u('Codi'),    1, 0, 'C', true);
+        $pdf->Cell(55,  7, self::u('Títol'),   1, 0, 'C', true);
+        $pdf->Cell(28,  7, self::u('Motiu'),   1, 0, 'C', true);
+        $pdf->Cell(27,  7, self::u('Import'),  1, 0, 'C', true);
+        $pdf->Cell(40,  7, self::u('Pagament'),1, 1, 'C', true);
+
+        [$r,$g,$b] = self::C_TEXT;
+        $pdf->SetTextColor($r,$g,$b);
+
+        $tipusMap = [
+            'perdua'             => 'Perdua',
+            'deteriorament_greu' => 'Deteriorament',
+            'extraviu'           => 'Extraviu',
+            'altre'              => 'Altre',
+        ];
+
+        foreach ($carrecs as $i => $c) {
+            $fill = ($i % 2 === 0);
+            [$r,$g,$b] = $fill ? [255, 235, 238] : self::C_BLANC;
+            $pdf->SetFillColor($r,$g,$b);
+
+            $import  = $c['import_pagament']
+                ? number_format((float)$c['import_pagament'], 2) . ' EUR'
+                : self::u('(pendent determinar)');
+            $pagat   = $c['pagat']
+                ? self::u('Pagat ' . ($c['data_pagament'] ? date('d/m/Y', strtotime($c['data_pagament'])) : ''))
+                : self::u('PENDENT');
+            $motiu   = $tipusMap[$c['tipus']] ?? $c['tipus'];
+
+            $pdf->SetFont('Helvetica', 'B', 8);
+            $pdf->Cell(30, 6, self::u($c['exemplar_codi']), 1, 0, 'L', $fill);
+            $pdf->SetFont('Helvetica', '', 8);
+            $pdf->Cell(55, 6, self::u(self::truncar($c['titol'], 33)),   1, 0, 'L', $fill);
+            $pdf->Cell(28, 6, self::u($motiu),   1, 0, 'C', $fill);
+            $pdf->Cell(27, 6, self::u($import),  1, 0, 'C', $fill);
+
+            if (!$c['pagat']) {
+                [$r,$g,$b] = self::C_VERMELL;
+                $pdf->SetTextColor($r,$g,$b);
+            }
+            $pdf->SetFont('Helvetica', 'B', 8);
+            $pdf->Cell(40, 6, $pagat, 1, 1, 'C', $fill);
+            [$r,$g,$b] = self::C_TEXT;
+            $pdf->SetTextColor($r,$g,$b);
+        }
+
+        $pdf->Ln(4);
     }
 
     // ---------------------------------------------------------------
