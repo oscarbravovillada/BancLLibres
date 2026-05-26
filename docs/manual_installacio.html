@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<title>Manual d'Instal·lació — BancLLibres</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 860px; margin: 40px auto; color: #212529; line-height: 1.7; }
+  h1 { color: #0d6efd; border-bottom: 2px solid #0d6efd; padding-bottom: 8px; }
+  h2 { color: #198754; margin-top: 2em; border-left: 4px solid #198754; padding-left: 10px; }
+  h3 { color: #495057; margin-top: 1.4em; }
+  code, pre { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; font-family: 'Courier New', monospace; }
+  code { padding: 1px 5px; font-size: 0.9em; }
+  pre { padding: 12px 16px; overflow-x: auto; font-size: 0.88em; }
+  .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 14px; margin: 12px 0; border-radius: 0 4px 4px 0; }
+  .danger { background: #f8d7da; border-left: 4px solid #dc3545; padding: 10px 14px; margin: 12px 0; border-radius: 0 4px 4px 0; }
+  .ok { background: #d1e7dd; border-left: 4px solid #198754; padding: 10px 14px; margin: 12px 0; border-radius: 0 4px 4px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th { background: #0d6efd; color: #fff; padding: 8px 12px; text-align: left; }
+  td { padding: 7px 12px; border-bottom: 1px solid #dee2e6; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  ol li, ul li { margin-bottom: 7px; }
+  nav { background: #f8f9fa; border: 1px solid #dee2e6; padding: 14px 20px; border-radius: 6px; margin-bottom: 30px; }
+  nav a { color: #0d6efd; text-decoration: none; display: block; margin: 3px 0; }
+  nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Manual d'Instal·lació — BancLLibres</h1>
+<p><strong>Versió:</strong> 1.0 · <strong>Data:</strong> Maig 2026 · <strong>Entorn:</strong> XAMPP + Ubuntu 22.04 LTS</p>
+
+<nav>
+  <strong>Índex</strong><br>
+  <a href="#req">1. Requisits previs</a>
+  <a href="#xampp">2. Instal·lar XAMPP</a>
+  <a href="#codi">3. Descarregar el codi</a>
+  <a href="#bd">4. Crear la base de dades</a>
+  <a href="#config">5. Configurar l'aplicació</a>
+  <a href="#permisos">6. Permisos de fitxers</a>
+  <a href="#verificar">7. Verificar la instal·lació</a>
+  <a href="#primer">8. Primer accés i configuració inicial</a>
+  <a href="#actualitzar">9. Actualitzar a una nova versió</a>
+  <a href="#desinstallar">10. Desinstal·lar</a>
+</nav>
+
+<h2 id="req">1. Requisits previs</h2>
+<ul>
+  <li>Ordinador o servidor amb <strong>Ubuntu 22.04 LTS</strong> (o versió posterior).</li>
+  <li>Accés a terminal amb privilegis <code>sudo</code>.</li>
+  <li>Connexió a Internet per descarregar XAMPP i el codi.</li>
+  <li>Compte de correu SMTP (p. ex. Office 365) per a les notificacions a famílies.</li>
+</ul>
+
+<h2 id="xampp">2. Instal·lar XAMPP</h2>
+<h3>2.1 Descarregar i instal·lar</h3>
+<pre>
+# 1. Ves a https://www.apachefriends.org i descarrega XAMPP per Linux (PHP 8.2)
+#    O bé, des de la terminal:
+cd ~/Descargas
+wget "https://sourceforge.net/projects/xampp/files/XAMPP%20Linux/8.2.12/xampp-linux-x64-8.2.12-0-installer.run"
+
+# 2. Donar permisos
+chmod +x xampp-linux-x64-8.2.12-0-installer.run
+
+# 3. Executar l'instal·lador (obre una interfície gràfica)
+sudo ./xampp-linux-x64-8.2.12-0-installer.run
+</pre>
+<p>Segueix l'assistent: accepta les opcions per defecte (instal·la a <code>/opt/lampp</code>).</p>
+
+<h3>2.2 Iniciar XAMPP</h3>
+<pre>
+sudo /opt/lampp/lampp start
+</pre>
+
+<p>Comprova que funciona obrint <code>http://localhost</code> al navegador. Ha d'aparèixer la pàgina de benvinguda de XAMPP.</p>
+
+<h3>2.3 Iniciar automàticament en arrancar l'ordinador</h3>
+<pre>
+sudo nano /etc/systemd/system/xampp.service
+</pre>
+<pre>
+[Unit]
+Description=XAMPP
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/lampp/lampp start
+ExecStop=/opt/lampp/lampp stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+</pre>
+<pre>
+sudo systemctl daemon-reload
+sudo systemctl enable xampp
+</pre>
+
+<h2 id="codi">3. Descarregar el codi</h2>
+<h3>Opció A: Amb Git (recomanada)</h3>
+<pre>
+cd /opt/lampp/htdocs
+sudo git clone https://github.com/oscarbravovillada/BancLLibres.git
+</pre>
+
+<h3>Opció B: Còpia de fitxers</h3>
+<pre>
+sudo mkdir -p /opt/lampp/htdocs/BancLLibres
+# Copia el contingut del ZIP a la carpeta anterior
+sudo cp -r /ruta/al/zip/descomprimit/* /opt/lampp/htdocs/BancLLibres/
+</pre>
+
+<p>L'estructura de carpetes ha de quedar així:</p>
+<pre>
+/opt/lampp/htdocs/BancLLibres/
+├── config/
+│   └── config.php          ← a crear al pas 5
+├── database/
+│   └── schema.sql
+├── docs/
+├── public/
+│   └── index.php
+├── src/
+│   ├── controllers/
+│   ├── helpers/
+│   └── views/
+├── uploads/
+│   └── albarans/           ← a crear al pas 6
+└── vendor/
+</pre>
+
+<h2 id="bd">4. Crear la base de dades</h2>
+<pre>
+# Obrir el client MySQL de XAMPP (password root buit per defecte)
+sudo /opt/lampp/bin/mysql -u root
+
+# Dins la consola MySQL:
+CREATE DATABASE banclLibres CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'banclLibres'@'localhost' IDENTIFIED BY 'CANVIA_AQUEST_PASSWORD';
+GRANT ALL PRIVILEGES ON banclLibres.* TO 'banclLibres'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+</pre>
+
+<p>Ara importa l'esquema:</p>
+<pre>
+sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres \
+  &lt; /opt/lampp/htdocs/BancLLibres/database/schema.sql
+</pre>
+
+<div class="ok">
+  Quan s'hagi importat, l'usuari administrador per defecte és <strong>admin</strong> amb contrasenya <strong>Admin1234!</strong>. Canvia-la al primer accés.
+</div>
+
+<h2 id="config">5. Configurar l'aplicació</h2>
+<h3>5.1 Crear config.php</h3>
+<pre>
+sudo cp /opt/lampp/htdocs/BancLLibres/config/config.example.php \
+        /opt/lampp/htdocs/BancLLibres/config/config.php
+sudo nano /opt/lampp/htdocs/BancLLibres/config/config.php
+</pre>
+
+<h3>5.2 Valors a configurar</h3>
+<table>
+  <tr><th>Constant</th><th>Descripció</th><th>Exemple</th></tr>
+  <tr><td><code>BASE_URL</code></td><td>URL base de l'aplicació (sense barra final)</td><td><code>http://localhost/BancLLibres/public</code></td></tr>
+  <tr><td><code>DB_HOST</code></td><td>Host de la base de dades</td><td><code>localhost</code></td></tr>
+  <tr><td><code>DB_NAME</code></td><td>Nom de la base de dades</td><td><code>banclLibres</code></td></tr>
+  <tr><td><code>DB_USER</code></td><td>Usuari MySQL</td><td><code>banclLibres</code></td></tr>
+  <tr><td><code>DB_PASS</code></td><td>Contrasenya MySQL</td><td><code>CANVIA_AQUEST_PASSWORD</code></td></tr>
+  <tr><td><code>MAIL_HOST</code></td><td>Servidor SMTP</td><td><code>smtp.office365.com</code></td></tr>
+  <tr><td><code>MAIL_PORT</code></td><td>Port SMTP</td><td><code>587</code></td></tr>
+  <tr><td><code>MAIL_USER</code></td><td>Compte d'enviament</td><td><code>biblioteca@iesporcons.edu</code></td></tr>
+  <tr><td><code>MAIL_PASS</code></td><td>Contrasenya del compte</td><td><code>···</code></td></tr>
+  <tr><td><code>MAIL_FROM</code></td><td>Adreça remitent als correus</td><td><code>biblioteca@iesporcons.edu</code></td></tr>
+  <tr><td><code>PDF_DIR</code></td><td>Ruta absoluta on es guarden els PDFs</td><td><code>/opt/lampp/htdocs/BancLLibres/uploads/albarans/</code></td></tr>
+</table>
+
+<div class="danger">
+  El fitxer <code>config.php</code> conté contrasenyes. Mai no el pujis a Git ni el comparteixes. Ja està inclòs al <code>.gitignore</code>.
+</div>
+
+<h2 id="permisos">6. Permisos de fitxers</h2>
+<pre>
+# Crear carpeta de PDFs si no existeix
+sudo mkdir -p /opt/lampp/htdocs/BancLLibres/uploads/albarans
+
+# Propietari: procés d'Apache (daemon)
+sudo chown -R daemon:daemon /opt/lampp/htdocs/BancLLibres
+
+# Permisos generals
+sudo chmod -R 755 /opt/lampp/htdocs/BancLLibres
+
+# La carpeta d'uploads necessita escriptura
+sudo chmod 777 /opt/lampp/htdocs/BancLLibres/uploads/albarans
+</pre>
+
+<h2 id="verificar">7. Verificar la instal·lació</h2>
+<ol>
+  <li>Obre <code>http://localhost/BancLLibres/public/</code> al navegador.</li>
+  <li>Ha d'aparèixer el formulari de login de BancLLibres.</li>
+  <li>Inicia sessió amb <strong>admin</strong> / <strong>Admin1234!</strong>.</li>
+  <li>Comprova que el panell mostra els menús i les seccions correctament.</li>
+  <li>Prova de crear un alumne de prova i assignar-li un préstec per comprovar la generació de PDF.</li>
+</ol>
+
+<h3>7.1 Comprovació de correus (opcional)</h3>
+<p>Configura l'adreça de correu d'un alumne de prova, assigna-li un lot i comprova que la família rep el correu.</p>
+
+<div class="note">
+  Si el correu falla, revisa les credencials SMTP a <code>config.php</code> i comprova que el port 587 no estigui bloquejat pel firewall del centre.
+</div>
+
+<h2 id="primer">8. Primer accés i configuració inicial</h2>
+<ol>
+  <li><strong>Canvia la contrasenya de l'admin</strong>: Ves a <em>Usuaris → Editar usuari admin → Canviar contrasenya</em>.</li>
+  <li><strong>Crea els cursos</strong>: Ves a <em>Cursos</em> i afegeix els cursos del centre (1ESO, 2ESO, etc.).</li>
+  <li><strong>Crea les classes</strong>: Per a cada curs, afegeix les classes (1A, 1B, etc.) i assigna el tutor.</li>
+  <li><strong>Crea les matèries</strong>: Ves a <em>Matèries</em> i afegeix les matèries.</li>
+  <li><strong>Afegeix els llibres</strong>: Ves a <em>Llibres</em> i crea el catàleg de llibres.</li>
+  <li><strong>Crea els exemplars</strong>: Per a cada llibre, crea els exemplars físics amb el seu codi.</li>
+  <li><strong>Crea els lots</strong>: Agrupa els exemplars per curs en lots per facilitar l'assignació.</li>
+  <li><strong>Importa els alumnes</strong>: Afegeix els alumnes manualment o via importació CSV (si s'ha implementat).</li>
+  <li><strong>Crea els professors</strong>: Crea els comptes dels professors i assigna'ls a les seves classes.</li>
+</ol>
+
+<h2 id="actualitzar">9. Actualitzar a una nova versió</h2>
+<pre>
+cd /opt/lampp/htdocs/BancLLibres
+sudo git pull origin main
+
+# Si la nova versió inclou canvis d'esquema:
+sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres &lt; database/schema_vX_Y.sql
+
+# Reiniciar Apache si cal:
+sudo /opt/lampp/lampp restart
+</pre>
+
+<div class="note">
+  Fes sempre una còpia de seguretat de la BD abans d'actualitzar.
+</div>
+
+<h2 id="desinstallar">10. Desinstal·lar</h2>
+<pre>
+# Aturar XAMPP
+sudo /opt/lampp/lampp stop
+
+# Eliminar el projecte
+sudo rm -rf /opt/lampp/htdocs/BancLLibres
+
+# Eliminar la BD (ATENCIÓ: s'esborra tot!)
+sudo /opt/lampp/bin/mysql -u root -e "DROP DATABASE banclLibres; DROP USER 'banclLibres'@'localhost';"
+
+# Desinstal·lar XAMPP (opcional)
+sudo /opt/lampp/uninstall
+</pre>
+
+<hr>
+<p style="color:#6c757d; font-size: 0.85em;">BancLLibres · IES PORÇONS · Manual d'Instal·lació · Document intern</p>
+</body>
+</html>

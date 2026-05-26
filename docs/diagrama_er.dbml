@@ -1,0 +1,175 @@
+// BancLLibres — Diagrama ER
+// Pegar a https://dbdiagram.io per visualitzar
+// IES PORÇONS · Maig 2026
+
+Table usuaris {
+  id int [pk, increment]
+  nom varchar(100) [not null]
+  cognoms varchar(100) [not null]
+  email varchar(150) [unique, not null]
+  password varchar(255) [not null]
+  rol enum('admin', 'professor', 'alumne') [not null, default: 'professor']
+  actiu tinyint(1) [not null, default: 1]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Usuaris del sistema (admins i professors)'
+}
+
+Table cursos {
+  id int [pk, increment]
+  codi varchar(20) [unique, not null, note: 'p.ex. 1ESO, 2ESO, 1BATX']
+  nom varchar(100)
+  actiu tinyint(1) [not null, default: 1]
+
+  Note: 'Cursos acadèmics (1ESO, 2ESO, ...)'
+}
+
+Table classes {
+  id int [pk, increment]
+  nom varchar(50) [unique, not null, note: 'p.ex. 1A, 2B']
+  curs_id int [not null, ref: > cursos.id]
+  tutor_id int [ref: > usuaris.id]
+  activa tinyint(1) [not null, default: 1]
+
+  Note: 'Classes (grups) del centre'
+}
+
+Table professor_classe {
+  professor_id int [not null, ref: > usuaris.id]
+  classe_id int [not null, ref: > classes.id]
+
+  indexes {
+    (professor_id, classe_id) [pk]
+  }
+
+  Note: 'Relació N:M professors — classes'
+}
+
+Table alumnes {
+  id int [pk, increment]
+  nom varchar(100) [not null]
+  cognoms varchar(100) [not null]
+  classe_id int [not null, ref: > classes.id]
+  email_familia varchar(150)
+  actiu tinyint(1) [not null, default: 1]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Alumnes del centre'
+}
+
+Table materies {
+  id int [pk, increment]
+  nom varchar(100) [unique, not null]
+  codi varchar(10) [unique, not null, note: 'codi curt per als codis dels exemplars']
+  activa tinyint(1) [not null, default: 1]
+
+  Note: 'Matèries (assignatures)'
+}
+
+Table llibres {
+  id int [pk, increment]
+  titol varchar(255) [not null]
+  isbn varchar(20)
+  editorial varchar(150)
+  materia_id int [not null, ref: > materies.id]
+  curs_id int [not null, ref: > cursos.id]
+  actiu tinyint(1) [not null, default: 1]
+
+  Note: 'Catàleg de títols de llibres'
+}
+
+Table exemplars {
+  id int [pk, increment]
+  codi varchar(50) [unique, not null, note: 'LOT-[CURS]-[NUM]-[MAT]-[EX] o OPT-[CURS]-[MAT]-[EX]']
+  llibre_id int [not null, ref: > llibres.id]
+  estat enum('bo', 'acceptable', 'deteriorat', 'perdut') [not null, default: 'bo']
+  disponible tinyint(1) [not null, default: 1]
+  alumne_id int [ref: > alumnes.id, note: 'NULL si disponible']
+  lot_id int [ref: > lots.id, note: 'NULL si optativa']
+
+  Note: 'Exemplars físics de cada títol'
+}
+
+Table lots {
+  id int [pk, increment]
+  nom varchar(100) [not null]
+  curs_id int [not null, ref: > cursos.id]
+  actiu tinyint(1) [not null, default: 1]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Agrupació d'exemplars per curs per a l'assignació massiva'
+}
+
+Table prestecs {
+  id int [pk, increment]
+  alumne_id int [not null, ref: > alumnes.id]
+  exemplar_id int [not null, ref: > exemplars.id]
+  lot_id int [ref: > lots.id]
+  data_prestec date [not null]
+  data_devolucio date
+  estat enum('actiu', 'retornat', 'perdut', 'pendent') [not null, default: 'actiu']
+  estat_prestec enum('actiu', 'retornat', 'perdut', 'pendent') [not null, default: 'actiu']
+  usuari_id int [ref: > usuaris.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Registre de préstecs d'exemplars a alumnes'
+}
+
+Table incidencies {
+  id int [pk, increment]
+  alumne_id int [not null, ref: > alumnes.id]
+  exemplar_id int [not null, ref: > exemplars.id]
+  tipus enum('deteriorament_lleu', 'deteriorament_greu', 'perdua', 'altres') [not null]
+  descripcio text
+  ha_de_pagar tinyint(1) [not null, default: 0]
+  import_pagament decimal(8,2)
+  pagat tinyint(1) [not null, default: 0]
+  data_pagament date
+  data_incidencia timestamp [default: `CURRENT_TIMESTAMP`]
+  usuari_id int [ref: > usuaris.id]
+
+  Note: 'Incidències: deterioraments, pèrdues i càrrecs econòmics'
+}
+
+Table historial {
+  id int [pk, increment]
+  alumne_id int [not null, ref: > alumnes.id]
+  exemplar_id int [ref: > exemplars.id]
+  accio varchar(50) [not null, note: 'prestec, devolucio, pendent, perdua, incidencia, correu...']
+  detalls text
+  usuari_id int [ref: > usuaris.id]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Registre auditoria de totes les accions'
+}
+
+Table albarans {
+  id int [pk, increment]
+  alumne_id int [not null, ref: > alumnes.id]
+  tipus enum('prestec', 'devolucio', 'incidencia') [not null]
+  fitxer_pdf varchar(255)
+  data timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Albarans PDF generats (préstec, devolució, incidència)'
+}
+
+Table enviaments_correu {
+  id int [pk, increment]
+  albara_id int [not null, ref: > albarans.id]
+  adreca_destinatari varchar(150) [not null]
+  estat enum('enviat', 'error') [not null, default: 'enviat']
+  missatge_error text
+  data_enviament timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Registre dels correus enviats a les famílies'
+}
+
+Table documents {
+  id int [pk, increment]
+  alumne_id int [not null, ref: > alumnes.id]
+  tipus varchar(50)
+  fitxer varchar(255)
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+
+  Note: 'Documents addicionals per alumne'
+}

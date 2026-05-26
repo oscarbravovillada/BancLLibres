@@ -8,8 +8,9 @@ private/exports/
 # Dades d'importació (XMLs de prova i dades reals)
 data/
 
-# Documentació (no cal al repo)
-docs/
+# Documentació specs originals (PDFs/ODT de referència, no els HTML generats)
+docs/*.pdf
+docs/*.odt
 
 # Composer (PHPMailer s'instal·la via composer install)
 vendor/phpmailer/

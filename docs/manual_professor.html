@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<title>Manual d'Usuari — Professor/a · BancLLibres</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; max-width: 860px; margin: 40px auto; color: #212529; line-height: 1.7; }
+  h1 { color: #0d6efd; border-bottom: 2px solid #0d6efd; padding-bottom: 8px; }
+  h2 { color: #198754; margin-top: 2em; border-left: 4px solid #198754; padding-left: 10px; }
+  h3 { color: #495057; margin-top: 1.4em; }
+  code { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 3px; padding: 1px 5px; font-family: monospace; }
+  .note { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px 14px; margin: 12px 0; border-radius: 0 4px 4px 0; }
+  .tip { background: #cff4fc; border-left: 4px solid #0dcaf0; padding: 10px 14px; margin: 12px 0; border-radius: 0 4px 4px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th { background: #0d6efd; color: #fff; padding: 8px 12px; text-align: left; }
+  td { padding: 7px 12px; border-bottom: 1px solid #dee2e6; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  ol li, ul li { margin-bottom: 7px; }
+  .step { display: inline-block; background: #0d6efd; color: #fff; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-weight: bold; font-size: 0.85em; margin-right: 6px; }
+  nav { background: #f8f9fa; border: 1px solid #dee2e6; padding: 14px 20px; border-radius: 6px; margin-bottom: 30px; }
+  nav a { color: #0d6efd; text-decoration: none; display: block; margin: 3px 0; }
+  nav a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Manual d'Usuari · Professor/a</h1>
+<p><strong>Sistema:</strong> BancLLibres · IES PORÇONS &nbsp;|&nbsp; <strong>Data:</strong> Maig 2026</p>
+
+<nav>
+  <strong>Índex</strong><br>
+  <a href="#acc">1. Accés al sistema</a>
+  <a href="#panell">2. Panell principal</a>
+  <a href="#alumnes">3. Gestió d'alumnes</a>
+  <a href="#prestecs">4. Assignar llibres (préstecs)</a>
+  <a href="#devolucio">5. Registrar devolució</a>
+  <a href="#incidencies">6. Incidències</a>
+  <a href="#historial">7. Historial</a>
+  <a href="#correu">8. Reenviar documents per correu</a>
+  <a href="#pendent">9. Préstecs pendents de retorn</a>
+  <a href="#faq">10. Preguntes freqüents</a>
+</nav>
+
+<h2 id="acc">1. Accés al sistema</h2>
+<ol>
+  <li>Obre el navegador i accedeix a la URL del sistema (facilitada pel coordinador TIC).</li>
+  <li>Introdueix el teu <strong>nom d'usuari</strong> i <strong>contrasenya</strong>.</li>
+  <li>Prem <strong>Inicia sessió</strong>.</li>
+</ol>
+<div class="note">
+  <strong>Nota:</strong> Sols veuràs els alumnes assignats a les teves classes. Si no veus un alumne esperat, contacta amb l'administrador.
+</div>
+
+<h2 id="panell">2. Panell principal</h2>
+<p>Un cop dins, el menú superior mostra les seccions disponibles:</p>
+<table>
+  <tr><th>Secció</th><th>Descripció</th></tr>
+  <tr><td>Alumnes</td><td>Llistat d'alumnes de les teves classes amb el seu estat de préstec</td></tr>
+  <tr><td>Préstecs</td><td>Resum de tots els préstecs actius de les teves classes</td></tr>
+  <tr><td>Llibres</td><td>Catàleg de llibres (consulta) i gestió d'exemplars</td></tr>
+  <tr><td>Incidències</td><td>Pèrdues, deterioraments i càrrecs econòmics</td></tr>
+  <tr><td>Historial</td><td>Registre d'accions realitzades</td></tr>
+</table>
+
+<h2 id="alumnes">3. Gestió d'alumnes</h2>
+<h3>3.1 Veure la llista d'alumnes</h3>
+<p>Ves a <strong>Alumnes → Llista d'alumnes</strong>. Veuràs una taula amb:</p>
+<ul>
+  <li>Nom i cognoms, classe, número de préstecs actius.</li>
+  <li>Badges de color: <span style="background:#d1e7dd;padding:1px 6px;border-radius:3px;font-size:0.85em">Sense préstecs</span>, <span style="background:#fff3cd;padding:1px 6px;border-radius:3px;font-size:0.85em">Amb préstecs</span>, <span style="background:#f8d7da;padding:1px 6px;border-radius:3px;font-size:0.85em">Amb incidències</span>.</li>
+</ul>
+
+<h3>3.2 Fitxa de l'alumne</h3>
+<p>Fes clic sobre el nom d'un alumne per obrir la seva fitxa. Des d'aquí pots:</p>
+<ul>
+  <li>Veure els exemplars prestats actualment.</li>
+  <li>Accedir a les opcions: <strong>Assignar lot</strong>, <strong>Afegir optativa</strong>, <strong>Registrar devolució</strong>, <strong>Registrar incidència</strong>, <strong>Reenviar document</strong>, <strong>Historial</strong>.</li>
+</ul>
+
+<h2 id="prestecs">4. Assignar llibres (préstecs)</h2>
+<h3>4.1 Assignar el lot de matèries comunes</h3>
+<ol>
+  <li>Obre la fitxa de l'alumne.</li>
+  <li>Prem <strong>Assignar lot</strong>.</li>
+  <li>Selecciona el lot corresponent al curs de l'alumne.</li>
+  <li>Prem <strong>Confirmar assignació</strong>.</li>
+  <li>Es generarà automàticament un albarà de préstec en PDF i s'enviarà per correu a la família (si hi ha adreça configurada).</li>
+</ol>
+
+<h3>4.2 Afegir un llibre d'optativa</h3>
+<ol>
+  <li>Obre la fitxa de l'alumne.</li>
+  <li>Prem <strong>Afegir llibre d'optativa</strong>.</li>
+  <li>Selecciona la matèria i el curs de l'optativa.</li>
+  <li>El sistema assignarà l'exemplar disponible i generarà l'albarà.</li>
+</ol>
+
+<div class="tip">
+  <strong>Consell:</strong> Comprova prèviament que hi ha exemplars disponibles a <strong>Llibres → Exemplars</strong> filtrant per la matèria desitjada.
+</div>
+
+<h2 id="devolucio">5. Registrar devolució</h2>
+<ol>
+  <li>Obre la fitxa de l'alumne.</li>
+  <li>Prem <strong>Registrar devolució</strong>.</li>
+  <li>Per a cada exemplar, selecciona l'estat:
+    <ul>
+      <li><strong>Pendent de retorn</strong> — l'alumne no ha portat el llibre avui, queda marcat com a pendent.</li>
+      <li><strong>Retornat</strong> — el llibre s'ha lliurat en bon estat.</li>
+      <li><strong>Perdut</strong> — el llibre no es pot recuperar; es genera una incidència automàticament.</li>
+    </ul>
+  </li>
+  <li>Prem <strong>Confirmar devolució</strong>.</li>
+  <li>Es generarà l'albarà de devolució i s'enviarà per correu.</li>
+</ol>
+
+<div class="note">
+  <strong>Préstecs pendents:</strong> Un exemplar en estat <em>pendent</em> continua associat a l'alumne. Quan el retorni, torna a fer el procés de devolució i selecciona <em>Retornat</em>.
+</div>
+
+<h2 id="incidencies">6. Incidències</h2>
+<h3>6.1 Registrar una incidència manualment</h3>
+<ol>
+  <li>Obre la fitxa de l'alumne i prem <strong>Registrar incidència</strong>.</li>
+  <li>Selecciona l'exemplar afectat.</li>
+  <li>Tria el tipus: <em>Deteriorament lleu</em>, <em>Deteriorament greu</em>, <em>Pèrdua</em> o <em>Altres</em>.</li>
+  <li>Omple la descripció i, si escau, l'import a pagar.</li>
+  <li>Prem <strong>Guardar incidència</strong>.</li>
+</ol>
+
+<h3>6.2 Marcar una incidència com a pagada</h3>
+<ol>
+  <li>Ves a <strong>Incidències</strong> al menú.</li>
+  <li>Localitza la incidència (filtra per alumne si cal).</li>
+  <li>Prem <strong>Marcar com a pagat</strong> i confirma.</li>
+</ol>
+
+<h2 id="historial">7. Historial</h2>
+<p>Ves a <strong>Historial</strong> al menú superior per veure totes les accions registrades de les teves classes: assignacions, devolucions, incidències i correus enviats. Pots filtrar per alumne o per data.</p>
+
+<h2 id="correu">8. Reenviar documents per correu</h2>
+<ol>
+  <li>Obre la fitxa de l'alumne.</li>
+  <li>Prem <strong>Reenviar document</strong>.</li>
+  <li>Selecciona el document (albarà de préstec, devolució o incidència) i confirma.</li>
+  <li>El sistema reenviarà el PDF a l'adreça de correu de la família.</li>
+</ol>
+
+<div class="note">
+  Si la família no té adreça de correu configurada, el botó de reenviar no funcionarà. Contacta amb l'administrador per actualitzar les dades.
+</div>
+
+<h2 id="pendent">9. Préstecs pendents de retorn</h2>
+<p>Un exemplar marcat com a <em>pendent</em> apareix a la fitxa de l'alumne i a la llista de préstecs amb l'etiqueta <strong>Pendent</strong>. Per tancar-lo:</p>
+<ol>
+  <li>Quan l'alumne porti el llibre, obre la fitxa i prem <strong>Registrar devolució</strong>.</li>
+  <li>Selecciona <strong>Retornat</strong> per a l'exemplar en qüestió i confirma.</li>
+</ol>
+
+<h2 id="faq">10. Preguntes freqüents</h2>
+<table>
+  <tr><th>Pregunta</th><th>Resposta</th></tr>
+  <tr><td>No veig un alumne a la llista</td><td>L'alumne pot no estar assignat a la teva classe. Avisa l'administrador.</td></tr>
+  <tr><td>No es genera el PDF</td><td>Comprova que hi ha espai en el servidor. Avisa l'administrador si el problema persisteix.</td></tr>
+  <tr><td>El correu no arriba a la família</td><td>Comprova l'adreça a la fitxa de l'alumne. Si és correcta, el servidor SMTP pot estar fallant — avisa l'administrador.</td></tr>
+  <tr><td>M'apareix "Accés denegat"</td><td>Estàs intentant accedir a un alumne d'una altra classe. Sols pots gestionar els alumnes assignats a tu.</td></tr>
+  <tr><td>He comès un error en la devolució</td><td>Contacta amb l'administrador per corregir-ho manualment a la BD.</td></tr>
+  <tr><td>Puc editar el catàleg de llibres?</td><td>Sí, professors i admin poden afegir/editar llibres i exemplars.</td></tr>
+</table>
+
+<hr>
+<p style="color:#6c757d; font-size: 0.85em;">BancLLibres · IES PORÇONS · Manual Professor/a · Document intern</p>
+</body>
+</html>
