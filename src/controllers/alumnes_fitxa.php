@@ -28,6 +28,8 @@ if (!$alumne) {
     exit;
 }
 
+Auth::requireAccessToAlumne($id);
+
 $lot = Database::fetchOne("SELECT * FROM lots WHERE alumne_id = ?", [$id]);
 
 $prestecs = Database::fetchAll(

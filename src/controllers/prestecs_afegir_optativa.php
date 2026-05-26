@@ -17,6 +17,8 @@ if (!$alumne_id) {
     exit;
 }
 
+Auth::requireAccessToAlumne($alumne_id);
+
 $alumne = Database::fetchOne(
     "SELECT a.*, c.nom AS classe_nom, CONCAT(u.nom,' ',u.cognoms) AS tutor_nom
      FROM alumnes a

@@ -50,11 +50,17 @@
       <a href="<?= BASE_URL ?>/prestecs/prestecs.php?id=<?= $alumne['id'] ?>" class="btn btn-outline-primary">
         <i class="bi bi-eye"></i> Veure préstecs
       </a>
+      <a href="<?= BASE_URL ?>/prestecs/afegir_optativa.php?alumne_id=<?= $alumne['id'] ?>" class="btn btn-outline-secondary">
+        <i class="bi bi-plus-circle"></i> Afegir llibre d'optativa
+      </a>
       <a href="<?= BASE_URL ?>/prestecs/devolucio.php?alumne_id=<?= $alumne['id'] ?>" class="btn btn-success">
         <i class="bi bi-arrow-return-left"></i> Registrar devolució
       </a>
       <a href="<?= BASE_URL ?>/prestecs/incidencia.php?alumne_id=<?= $alumne['id'] ?>" class="btn btn-warning">
         <i class="bi bi-exclamation-triangle"></i> Registrar incidència
+      </a>
+      <a href="<?= BASE_URL ?>/prestecs/reenviar.php?alumne_id=<?= $alumne['id'] ?>" class="btn btn-outline-info">
+        <i class="bi bi-envelope"></i> Reenviar document
       </a>
       <a href="<?= BASE_URL ?>/prestecs/historial.php?alumne_id=<?= $alumne['id'] ?>" class="btn btn-outline-dark">
         <i class="bi bi-clock-history"></i> Historial

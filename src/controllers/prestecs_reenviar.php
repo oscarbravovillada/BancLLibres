@@ -17,6 +17,8 @@ if (!$alumne_id) {
     exit;
 }
 
+Auth::requireAccessToAlumne($alumne_id);
+
 $alumne = Database::fetchOne(
     "SELECT a.*, c.nom AS classe_nom FROM alumnes a JOIN classes c ON a.classe_id = c.id WHERE a.id = ?",
     [$alumne_id]

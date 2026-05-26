@@ -21,6 +21,8 @@ if (!$alumne_id) {
     exit;
 }
 
+Auth::requireAccessToAlumne($alumne_id);
+
 /* ============================
    1) DADES DE L'ALUMNE
    ============================ */

@@ -59,4 +59,24 @@ class Auth {
     public static function nom(): string {
         return $_SESSION['user_nom'] ?? '';
     }
+
+    public static function canAccessAlumne(int $alumne_id): bool {
+        if (self::rol() === 'admin') return true;
+
+        $row = Database::fetchOne(
+            "SELECT 1
+             FROM alumnes a
+             JOIN professor_classe pc ON pc.classe_id = a.classe_id
+             WHERE a.id = ? AND pc.professor_id = ?",
+            [$alumne_id, self::id()]
+        );
+        return (bool)$row;
+    }
+
+    public static function requireAccessToAlumne(int $alumne_id): void {
+        if (!self::canAccessAlumne($alumne_id)) {
+            header('Location: ' . BASE_URL . '/index.php?error=no_permisos');
+            exit;
+        }
+    }
 }
