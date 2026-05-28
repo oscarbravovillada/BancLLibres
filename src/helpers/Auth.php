@@ -20,6 +20,7 @@ class Auth {
         $_SESSION['user_nom']   = $user['nom'] . ' ' . $user['cognoms'];
         $_SESSION['user_rol']   = $user['rol'];
         $_SESSION['user_email'] = $user['email'];
+        $_SESSION['dark_mode']  = (bool)($user['dark_mode'] ?? false);
     }
 
     public static function logout(): void {
