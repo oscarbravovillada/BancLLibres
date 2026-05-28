@@ -238,7 +238,7 @@ cd /opt/lampp/htdocs/BancLLibres
 sudo git pull origin main
 
 # Si la nova versió inclou canvis d'esquema:
-sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres &lt; database/schema_vX_Y.sql
+sudo /opt/lampp/bin/mysql -u banc_user -p banc_llibres &lt; database/schema_vX_Y.sql
 
 # Reiniciar Apache si cal:
 sudo /opt/lampp/lampp restart
@@ -257,7 +257,7 @@ sudo /opt/lampp/lampp stop
 sudo rm -rf /opt/lampp/htdocs/BancLLibres
 
 # Eliminar la BD (ATENCIÓ: s'esborra tot!)
-sudo /opt/lampp/bin/mysql -u root -e "DROP DATABASE banclLibres; DROP USER 'banclLibres'@'localhost';"
+sudo /opt/lampp/bin/mysql -u root -e "DROP DATABASE banc_llibres; DROP USER 'banc_user'@'localhost';"
 
 # Desinstal·lar XAMPP (opcional)
 sudo /opt/lampp/uninstall

@@ -109,16 +109,16 @@ sudo chmod 777 /opt/lampp/htdocs/BancLLibres/uploads/albarans
 sudo /opt/lampp/bin/mysql -u root
 
 -- Dins MySQL:
-CREATE DATABASE banclLibres CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'banclLibres'@'localhost' IDENTIFIED BY 'la_teva_contrasenya';
-GRANT ALL PRIVILEGES ON banclLibres.* TO 'banclLibres'@'localhost';
+CREATE DATABASE banc_llibres CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'banc_user'@'localhost' IDENTIFIED BY 'la_teva_contrasenya';
+GRANT ALL PRIVILEGES ON banc_llibres.* TO 'banc_user'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 </pre>
 
 <h3>4.2 Importar l'esquema</h3>
 <pre>
-sudo /opt/lampp/bin/mysql -u banclLibres -p banclLibres &lt; /opt/lampp/htdocs/BancLLibres/database/schema.sql
+sudo /opt/lampp/bin/mysql -u banc_user -p banc_llibres &lt; /opt/lampp/htdocs/BancLLibres/database/schema.sql
 </pre>
 
 <div class="ok">
